@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Emilia Tengil Batu</title>
+    <meta name="description" content="Absensi, voucher karaoke, keuangan, dan tabungan harian.">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="color-scheme" content="light dark">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Emilia Tengil Batu">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <script>
+        try { var __t = localStorage.getItem('etbAppTitle'); if (__t) document.title = __t; } catch (e) {}
+    </script>
+    
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        bloom: {
+                            mint: '#c9efdd', mintText: '#0f9d6b',
+                            cream: '#fbe7bd', creamText: '#b45309',
+                            blue: '#cfe3fb', blueText: '#1d4ed8',
+                            pink: '#fbd7da', pinkText: '#be123c',
+                            lavender: '#ded8fb', lavenderText: '#6d28d9',
+                            bg: '#f7f7f9', card: '#ffffff'
+                        },
+                        slate: {
+                            900: '#14161f', 800: '#1b1e29', 700: '#262a38',
+                            600: '#333749', 500: '#6c7288', 400: '#8b90a3',
+                            300: '#b6bac8', 200: '#d7dae3'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'soft-dark': '0 4px 20px -2px rgba(0, 0, 0, 0.3)',
+                        'nav': '0 -4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'nav-dark': '0 -4px 20px -2px rgba(0, 0, 0, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: none;
+            background-color: #f3f4f6; /* Outer background */
+        }
+        .dark body { background-color: #0a0b10; }
+        
+        /* Scrollbar hiding */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Tabs and Animations */
+        .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Modals */
+        .modal { display: none; animation: fadeIn 0.2s ease-out; }
+        .modal.active { display: flex; }
+        .modal-content { animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Nav Items */
+        svg { width: 24px; height: 24px; stroke-width: 2; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; transition: all 0.2s; }
+        .nav-item { padding-bottom: env(safe-area-inset-bottom); }
+        .nav-item.active { color: #6d28d9; font-weight: 700; transform: translateY(-2px); }
+        .nav-item.active svg { stroke: #6d28d9; fill: #ded8fb; }
+        .dark .nav-item.active { color: #c4b5fd; }
+        .dark .nav-item.active svg { stroke: #c4b5fd; fill: rgba(109, 40, 217, 0.35); }
+        
+        select { -webkit-appearance: none; appearance: none; }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .mb-safe { margin-bottom: env(safe-area-inset-bottom); }
+    </style>
+</head>
+<body class="text-gray-800 dark:text-slate-100 antialiased h-[100dvh] w-full flex justify-center overflow-hidden transition-colors duration-300">
+
+    <!-- App Container: Fixed width on desktop, full width on mobile -->
+    <div class="w-full max-w-md h-full flex flex-col relative bg-bloom-bg dark:bg-slate-900 shadow-2xl sm:border-x sm:border-gray-200 dark:sm:border-slate-800 overflow-hidden transition-colors duration-300">
+        
+        <!-- Header -->
+        <header class="pt-[max(1.5rem,env(safe-area-inset-top))] pb-4 px-6 bg-white dark:bg-slate-800 shadow-sm z-20 flex justify-between items-center transition-colors duration-300 flex-shrink-0">
+            <div>
+                <h1 id="app-title" onclick="openTitleModal()" title="Ketuk untuk ubah judul" class="text-xl font-black text-bloom-pinkText dark:text-pink-400 cursor-pointer active:opacity-60 transition-opacity max-w-[230px] truncate">Emilia Tengil Batu</h1>
+                <p id="header-date" class="text-xs text-gray-500 dark:text-slate-400 font-bold mt-0.5"></p>
+                <span id="offline-badge" class="hidden mt-1 inline-block text-[9px] font-black uppercase tracking-widest bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full">Offline</span>
+            </div>
+            <button onclick="toggleTheme()" class="p-2.5 bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-yellow-400 rounded-full active:scale-95 transition-all">
+                <svg class="w-5 h-5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+        </header>
+
+        <!-- Main Scrollable Area (Notice pb-28 to prevent nav overlap) -->
+        <main class="flex-1 overflow-y-auto no-scrollbar px-5 pt-5 pb-28 relative z-10 w-full h-full">
+            
+            <!-- VIEW: HARI INI -->
+            <div id="view-home" class="tab-content active space-y-5">
+                <div id="backup-reminder" class="hidden bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-3xl p-4">
+                    <p class="text-xs font-black text-amber-800 dark:text-amber-300">💾 Waktunya backup data</p>
+                    <p id="backup-reminder-text" class="text-[11px] font-semibold text-amber-700/80 dark:text-amber-300/70 mt-1 mb-3"></p>
+                    <div class="flex gap-2">
+                        <button onclick="snoozeBackup()" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-amber-700 dark:text-amber-300 bg-white/70 dark:bg-slate-800/60 active:scale-95 transition-transform">Nanti</button>
+                        <button onclick="exportData()" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-white bg-amber-500 dark:bg-amber-600 shadow-sm active:scale-95 transition-transform">Backup Sekarang</button>
+                    </div>
+                </div>
+                <!-- Status Card -->
+                <div class="bg-bloom-mint/30 dark:bg-emerald-900/30 rounded-3xl p-5 shadow-soft dark:shadow-soft-dark border border-bloom-mint/50 dark:border-emerald-800/50">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="font-bold text-bloom-mintText dark:text-emerald-400 text-lg">Hari Ini</h2>
+                        <span id="home-today-date" class="text-xs font-bold px-3 py-1 bg-white/70 dark:bg-slate-800/70 backdrop-blur rounded-full text-bloom-mintText dark:text-emerald-400"></span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur p-3.5 rounded-2xl shadow-sm text-center flex-1 border border-white/50 dark:border-slate-700">
+                            <p class="text-[10px] uppercase tracking-widest text-gray-500 dark:text-slate-400 font-bold mb-1">Status</p>
+                            <p id="home-today-status" class="font-black text-gray-800 dark:text-white text-sm line-clamp-1">-</p>
+                        </div>
+                        <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur p-3.5 rounded-2xl shadow-sm text-center flex-1 border border-white/50 dark:border-slate-700">
+                            <p class="text-[10px] uppercase tracking-widest text-gray-500 dark:text-slate-400 font-bold mb-1">Voucher</p>
+                            <p id="home-today-voucher" class="font-black text-bloom-mintText dark:text-emerald-400 text-xl leading-none">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monthly Summary Card -->
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700 relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-bloom-pink/10 dark:bg-pink-900/10 rounded-full blur-2xl"></div>
+                    
+                    <div class="flex justify-between items-center mb-4 relative z-10">
+                        <h2 class="font-bold text-gray-800 dark:text-white text-lg">Bulan Ini</h2>
+                        <span id="home-month-status-badge" class="text-[10px] font-black px-2.5 py-1 rounded-md tracking-wider">OPEN</span>
+                    </div>
+
+                    <div class="mb-5 relative z-10">
+                        <div class="relative">
+                            <select id="home-month-select" class="w-full bg-bloom-lavender/10 dark:bg-purple-900/20 border border-bloom-lavender/30 dark:border-purple-800/40 text-xs font-bold rounded-xl p-3 outline-none cursor-pointer text-bloom-lavenderText dark:text-purple-300 appearance-none text-center" onchange="renderDashboard()">
+                                <!-- Options generated by JS -->
+                            </select>
+                            <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-bloom-lavenderText dark:text-purple-400"><svg class="w-4 h-4"><path d="m6 9 6 6 6-6"/></svg></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-5 relative z-10">
+                        <div class="flex justify-between text-sm mb-1.5">
+                            <span class="font-bold text-gray-600 dark:text-slate-400">Hari Kerja</span>
+                            <span id="home-workdays-text" class="font-black text-bloom-blueText dark:text-blue-400">0 / 18</span>
+                        </div>
+                        <div class="w-full bg-gray-100 dark:bg-slate-700 rounded-full h-3 overflow-hidden">
+                            <div id="home-workdays-bar" class="bg-bloom-blueText dark:bg-blue-500 h-full rounded-full transition-all duration-700 ease-out" style="width: 0%"></div>
+                        </div>
+                        <p id="home-workdays-target" class="text-[10px] font-bold text-gray-400 dark:text-slate-500 mt-1.5 text-right">Sisa target: 18 hari</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 mb-5 relative z-10">
+                        <div class="bg-bloom-blue/10 dark:bg-blue-900/20 p-3.5 rounded-2xl border border-bloom-blue/20 dark:border-blue-800/30">
+                            <p class="text-[9px] uppercase tracking-widest text-bloom-blueText dark:text-blue-400 font-bold mb-1">Didapat</p>
+                            <p id="home-v-earned" class="font-black text-xl text-bloom-blueText dark:text-blue-300">0</p>
+                        </div>
+                        <div class="bg-bloom-pink/10 dark:bg-pink-900/20 p-3.5 rounded-2xl border border-bloom-pink/20 dark:border-pink-800/30">
+                            <p class="text-[9px] uppercase tracking-widest text-bloom-pinkText dark:text-pink-400 font-bold mb-1">Hilang</p>
+                            <p id="home-v-lost" class="font-black text-xl text-bloom-pinkText dark:text-pink-300">0</p>
+                        </div>
+                        <div class="bg-bloom-lavender/10 dark:bg-purple-900/20 p-4 rounded-2xl border border-bloom-lavender/30 dark:border-purple-800/30 col-span-2 flex justify-between items-center">
+                            <div>
+                                <p class="text-[9px] uppercase tracking-widest text-bloom-lavenderText dark:text-purple-400 font-bold mb-1">Voucher Bersih</p>
+                                <p id="home-v-net" class="font-black text-3xl text-bloom-lavenderText dark:text-purple-300 leading-none">0</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[9px] text-bloom-lavenderText/70 dark:text-purple-400/80 font-bold uppercase tracking-widest mb-1">Total Nilai (Rp)</p>
+                                <p id="home-v-value" class="font-black text-sm text-bloom-lavenderText dark:text-purple-300 bg-bloom-lavender/20 dark:bg-purple-900/40 px-2.5 py-1 rounded-lg">Rp0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-dashed border-gray-200 dark:border-slate-700 pt-4 relative z-10">
+                        <p class="text-[10px] uppercase tracking-widest text-gray-500 dark:text-slate-400 font-bold mb-2.5">Keuangan Aktual (Otomatis)</p>
+                        <div class="flex justify-between items-center bg-gradient-to-r from-bloom-cream/40 to-bloom-cream/10 dark:from-amber-900/30 dark:to-amber-900/10 p-4 rounded-2xl border border-bloom-cream/50 dark:border-amber-800/30">
+                            <div>
+                                <p class="text-[10px] text-bloom-creamText dark:text-amber-500 font-bold uppercase tracking-widest mb-1">Bersih</p>
+                                <p id="home-f-net" class="font-black text-bloom-creamText dark:text-amber-400 text-xl">Rp0</p>
+                            </div>
+                            <div class="text-right text-[10px] font-bold space-y-1">
+                                <p class="text-green-600 dark:text-green-400 flex justify-end gap-2"><span>Masuk:</span> <span id="home-f-in">Rp0</span></p>
+                                <p class="text-red-500 dark:text-red-400 flex justify-end gap-2"><span>Keluar:</span> <span id="home-f-out">Rp0</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-2 gap-4 pb-2">
+                    <button onclick="openAttendanceModal(getTodayString())" class="bg-white dark:bg-slate-800 p-4 rounded-3xl shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700 flex flex-col items-center justify-center gap-2 active:scale-95 transition-all text-gray-700 dark:text-slate-200 group">
+                        <div class="bg-bloom-mint/20 dark:bg-emerald-900/40 p-3 rounded-2xl group-hover:bg-bloom-mint/30 transition-colors"><svg class="w-6 h-6 text-bloom-mintText dark:text-emerald-400"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+                        <span class="text-xs font-bold mt-1">Isi Absen</span>
+                    </button>
+                    <button onclick="openFinanceModal()" class="bg-white dark:bg-slate-800 p-4 rounded-3xl shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700 flex flex-col items-center justify-center gap-2 active:scale-95 transition-all text-gray-700 dark:text-slate-200 group">
+                        <div class="bg-bloom-cream/30 dark:bg-amber-900/40 p-3 rounded-2xl group-hover:bg-bloom-cream/50 transition-colors"><svg class="w-6 h-6 text-bloom-creamText dark:text-amber-500"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                        <span class="text-xs font-bold mt-1">Input Uang</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- VIEW: ABSEN -->
+            <div id="view-absen" class="tab-content space-y-4">
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700">
+                    <div class="flex justify-between items-center mb-5">
+                        <button onclick="changeCalendarMonth(-1)" class="p-2.5 bg-gray-50 dark:bg-slate-700 rounded-xl active:scale-95 transition-transform"><svg class="w-5 h-5 text-gray-600 dark:text-slate-300"><path d="m15 18-6-6 6-6"/></svg></button>
+                        <h2 id="calendar-month-year" class="font-bold text-lg text-gray-800 dark:text-white tracking-wide">...</h2>
+                        <button onclick="changeCalendarMonth(1)" class="p-2.5 bg-gray-50 dark:bg-slate-700 rounded-xl active:scale-95 transition-transform"><svg class="w-5 h-5 text-gray-600 dark:text-slate-300"><path d="m9 18 6-6-6-6"/></svg></button>
+                    </div>
+                    
+                    <div class="grid grid-cols-7 gap-1 text-center mb-2">
+                        <div class="text-[10px] uppercase font-bold text-gray-400 dark:text-slate-500">Min</div>
+                        <div class="text-[10px] uppercase font-bold text-gray-400 dark:text-slate-500">Sen</div>
+                        <div class="text-[10px] uppercase font-bold text-gray-400 dark:text-slate-500">Sel</div>
+                        <div class="text-[10px] uppercase font-bold text-gray-400 dark:text-slate-500">Rab</div>
+                        <div class="text-[10px] uppercase font-bold text-gray-400 dark:text-slate-500">Kam</div>
+                        <div class="text-[10px] uppercase font-bold text-gray-400 dark:text-slate-500">Jum</div>
+                        <div class="text-[10px] uppercase font-bold text-gray-400 dark:text-slate-500">Sab</div>
+                    </div>
+                    <div id="calendar-grid" class="grid grid-cols-7 gap-1.5 text-center">
+                        <!-- Calendar Days Injection -->
+                    </div>
+                </div>
+                
+                <div class="bg-white/50 dark:bg-slate-800/50 p-4 rounded-3xl border border-gray-200 dark:border-slate-700">
+                     <p class="text-[10px] uppercase tracking-widest font-bold text-gray-500 dark:text-slate-400 mb-3 text-center">Legenda Status Absensi</p>
+                     <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-[10px] font-bold text-gray-600 dark:text-slate-300">
+                         <div class="flex items-center gap-1.5 bg-white dark:bg-slate-800 p-2 rounded-lg border border-gray-100 dark:border-slate-700"><span>✅</span> <span>Masuk</span></div>
+                         <div class="flex items-center gap-1.5 bg-white dark:bg-slate-800 p-2 rounded-lg border border-gray-100 dark:border-slate-700"><span>🏃</span> <span>Piket</span></div>
+                         <div class="flex items-center gap-1.5 bg-white dark:bg-slate-800 p-2 rounded-lg border border-gray-100 dark:border-slate-700"><span>⏰</span> <span>Telat</span></div>
+                         <div class="flex items-center gap-1.5 bg-white dark:bg-slate-800 p-2 rounded-lg border border-gray-100 dark:border-slate-700"><span>🩸</span> <span>Mens</span></div>
+                         <div class="flex items-center gap-1.5 bg-white dark:bg-slate-800 p-2 rounded-lg border border-gray-100 dark:border-slate-700"><span>📍</span> <span>Kunjungan</span></div>
+                         <div class="flex items-center gap-1.5 bg-white dark:bg-slate-800 p-2 rounded-lg border border-gray-100 dark:border-slate-700"><span>🚫</span> <span>Off</span></div>
+                         <div class="flex items-center gap-1.5 bg-white dark:bg-slate-800 p-2 rounded-lg border border-gray-100 dark:border-slate-700 opacity-60"><span>🌱</span> <span>Belum Diisi</span></div>
+                     </div>
+                     <p class="text-[9px] text-center text-gray-400 dark:text-slate-500 font-bold mt-3 leading-relaxed">Voucher manual & karaoke diinput saat mengisi absen (1 karaoke = +2 voucher), otomatis terhitung ke total bulan.<br>📍 Kunjungan tetap dihitung kerja & dapat voucher, tapi tidak menambah hari kerja (18 hari).</p>
+                </div>
+
+                <div id="absen-detail" class="bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700"></div>
+            </div>
+
+            <!-- VIEW: UANG -->
+            <div id="view-uang" class="tab-content space-y-4">
+                <div class="flex justify-between items-center px-1">
+                    <h2 class="font-bold text-xl text-gray-800 dark:text-white">Riwayat Uang</h2>
+                    <button onclick="openFinanceModal()" class="bg-bloom-creamText dark:bg-amber-600 text-white font-bold px-5 py-2.5 rounded-full text-xs shadow-md active:scale-95 transition-transform flex items-center gap-1">
+                        <svg class="w-4 h-4"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Tambah
+                    </button>
+                </div>
+                
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-2 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700 relative">
+                    <select id="finance-month-filter" class="w-full bg-gray-50/50 dark:bg-slate-700/50 border-none text-sm font-bold rounded-xl p-3 outline-none cursor-pointer text-gray-800 dark:text-white appearance-none text-center" onchange="renderFinanceList()">
+                        <!-- Options generated by JS -->
+                    </select>
+                    <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"><svg class="w-4 h-4"><path d="m6 9 6 6 6-6"/></svg></div>
+                </div>
+
+                <div id="finance-list" class="space-y-3">
+                    <!-- Transactions Injection -->
+                </div>
+            </div>
+
+            <!-- VIEW: REKAP -->
+            <div id="view-rekap" class="tab-content space-y-5">
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700 flex flex-col gap-3 relative">
+                    <h2 class="font-bold text-gray-800 dark:text-white text-lg">Laporan Bulanan</h2>
+                    <div class="relative">
+                        <select id="recap-month-select" class="w-full bg-bloom-lavender/10 dark:bg-purple-900/20 border border-bloom-lavender/30 dark:border-purple-800/40 text-sm font-bold rounded-xl p-3.5 outline-none cursor-pointer text-bloom-lavenderText dark:text-purple-300 appearance-none" onchange="renderRecap()">
+                            <!-- Options -->
+                        </select>
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-bloom-lavenderText dark:text-purple-400"><svg class="w-5 h-5"><path d="m6 9 6 6 6-6"/></svg></div>
+                    </div>
+                </div>
+
+                <div id="recap-content" class="space-y-5">
+                    <!-- Recap Injection -->
+                </div>
+            </div>
+
+            <!-- VIEW: SETING -->
+            <div id="view-seting" class="tab-content space-y-5">
+                <h2 class="font-bold text-xl text-gray-800 dark:text-white mb-2 px-2">Pengaturan</h2>
+                
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-2 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700">
+                    <div class="p-4 border-b border-gray-50 dark:border-slate-700">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="p-3 bg-bloom-blue/20 dark:bg-blue-900/40 rounded-2xl text-bloom-blueText dark:text-blue-400"><svg><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg></div>
+                            <div>
+                                <h3 class="font-bold text-sm text-gray-800 dark:text-white">Backup Data</h3>
+                                <p class="text-[10px] font-semibold text-gray-500 dark:text-slate-400 mt-0.5">Simpan ke file JSON aman</p>
+                            </div>
+                        </div>
+                        <button onclick="exportData()" class="w-full bg-bloom-blue/10 dark:bg-slate-700/50 text-bloom-blueText dark:text-blue-400 font-bold py-3.5 rounded-xl text-xs active:scale-95 transition-transform border border-bloom-blue/20 dark:border-blue-800">Download Backup</button>
+                    </div>
+
+                    <div class="p-4 border-b border-gray-50 dark:border-slate-700">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="p-3 bg-bloom-mint/30 dark:bg-emerald-900/40 rounded-2xl text-bloom-mintText dark:text-emerald-400"><svg><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg></div>
+                            <div>
+                                <h3 class="font-bold text-sm text-gray-800 dark:text-white">Restore Data</h3>
+                                <p class="text-[10px] font-semibold text-gray-500 dark:text-slate-400 mt-0.5">Kembalikan data dari JSON</p>
+                            </div>
+                        </div>
+                        <input type="file" id="restore-file" accept=".json" class="hidden" onchange="handleRestoreFile(event)">
+                        <button onclick="document.getElementById('restore-file').click()" class="w-full bg-bloom-mint/20 dark:bg-slate-700/50 text-bloom-mintText dark:text-emerald-400 font-bold py-3.5 rounded-xl text-xs active:scale-95 transition-transform border border-bloom-mint/30 dark:border-emerald-800">Pilih File Backup</button>
+                    </div>
+
+                    <div class="p-4">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="p-3 bg-bloom-pink/20 dark:bg-pink-900/40 rounded-2xl text-bloom-pinkText dark:text-pink-400"><svg><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></div>
+                            <div>
+                                <h3 class="font-bold text-sm text-gray-800 dark:text-white">Hapus Semua Data</h3>
+                                <p class="text-[10px] font-semibold text-gray-500 dark:text-slate-400 mt-0.5">Reset aplikasi ke awal</p>
+                            </div>
+                        </div>
+                        <button onclick="confirmResetData()" class="w-full bg-bloom-pink/10 dark:bg-slate-700/50 text-bloom-pinkText dark:text-pink-400 font-bold py-3.5 rounded-xl text-xs active:scale-95 transition-transform border border-bloom-pink/20 dark:border-pink-800">Hapus Permanen</button>
+                    </div>
+                </div>
+                
+                <button onclick="openTitleModal()" class="w-full bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700 flex items-center justify-between active:scale-95 transition-transform">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="text-xl">✏️</span>
+                        <div class="text-left min-w-0">
+                            <span class="font-bold text-sm text-gray-700 dark:text-slate-200 block">Judul Aplikasi</span>
+                            <span id="setting-title-text" class="text-[10px] font-semibold text-gray-500 dark:text-slate-400 block mt-0.5 truncate"></span>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-black bg-bloom-pink/20 dark:bg-pink-900/40 px-3 py-1.5 rounded-full text-bloom-pinkText dark:text-pink-300 uppercase tracking-widest flex-shrink-0">Ubah</span>
+                </button>
+
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="p-3 bg-bloom-lavender/30 dark:bg-purple-900/40 rounded-2xl text-xl leading-none">📲</div>
+                        <div>
+                            <h3 class="font-bold text-sm text-gray-800 dark:text-white">Aplikasi &amp; Offline</h3>
+                            <p id="pwa-status" class="text-[10px] font-semibold text-gray-500 dark:text-slate-400 mt-0.5"></p>
+                        </div>
+                    </div>
+                    <button id="pwa-install-btn" onclick="installApp()" class="hidden w-full bg-bloom-lavenderText dark:bg-purple-600 text-white font-bold py-3.5 rounded-xl text-xs shadow-md active:scale-95 transition-transform mb-3">Pasang Aplikasi</button>
+                    <div class="space-y-2 text-[11px] font-bold">
+                        <div class="flex justify-between"><span class="text-gray-500 dark:text-slate-400">Mode offline</span><span id="pwa-offline-state" class="text-gray-700 dark:text-slate-200">-</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500 dark:text-slate-400">Penyimpanan</span><span id="pwa-storage-state" class="text-gray-700 dark:text-slate-200">-</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500 dark:text-slate-400">Backup terakhir</span><span id="pwa-backup-state" class="text-gray-700 dark:text-slate-200">-</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500 dark:text-slate-400">Versi</span><span id="pwa-version" class="text-gray-700 dark:text-slate-200">-</span></div>
+                    </div>
+                    <button onclick="checkForUpdate()" class="w-full mt-4 bg-gray-100 dark:bg-slate-700/60 text-gray-600 dark:text-slate-300 font-bold py-3 rounded-xl text-xs active:scale-95 transition-transform">Cek Pembaruan</button>
+                </div>
+
+                <button onclick="toggleTheme()" class="w-full bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700 flex items-center justify-between active:scale-95 transition-transform">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-gray-500 dark:text-yellow-400"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                        <span class="font-bold text-sm text-gray-700 dark:text-slate-200">Mode Tampilan</span>
+                    </div>
+                    <span class="text-[10px] font-black bg-gray-100 dark:bg-slate-700 px-3 py-1.5 rounded-full dark:text-yellow-400 text-gray-600 uppercase tracking-widest" id="setting-theme-text">Ganti</span>
+                </button>
+
+                <button onclick="switchTab('tabungan')" class="w-full bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700 flex items-center justify-between active:scale-95 transition-transform">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl">🐷</span>
+                        <span class="font-bold text-sm text-gray-700 dark:text-slate-200">Menabung</span>
+                    </div>
+                    <span class="text-[10px] font-black bg-bloom-lavender/30 dark:bg-purple-900/40 px-3 py-1.5 rounded-full text-bloom-lavenderText dark:text-purple-300 uppercase tracking-widest">Buka ›</span>
+                </button>
+
+                <div class="text-center pt-3 pb-1">
+                    <p class="text-[11px] font-black text-gray-400 dark:text-slate-500 tracking-wide">direct by faksiii</p>
+                    <p class="text-[10px] font-semibold text-gray-400 dark:text-slate-500 mt-1">Semoga bermanfaat ya, semangat! 🌸</p>
+                </div>
+            </div>
+
+            <!-- VIEW: TABUNGAN -->
+            <div id="view-tabungan" class="tab-content space-y-5">
+                <div class="flex items-center gap-2 mb-1">
+                    <button onclick="switchTab('seting')" class="p-2 bg-gray-100 dark:bg-slate-700 rounded-full text-gray-500 dark:text-slate-300 active:scale-95 transition-transform"><svg class="w-4 h-4"><path d="m15 18-6-6 6-6"/></svg></button>
+                    <h2 class="font-bold text-xl text-gray-800 dark:text-white">Menabung</h2>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-4 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700 flex items-center justify-between">
+                    <button onclick="changeTabunganMonth(-1)" class="p-2.5 bg-gray-50 dark:bg-slate-700 rounded-xl active:scale-95 transition-transform"><svg class="w-5 h-5 text-gray-600 dark:text-slate-300"><path d="m15 18-6-6 6-6"/></svg></button>
+                    <h3 id="tabungan-month-label" class="font-black text-gray-800 dark:text-white tracking-wide">...</h3>
+                    <button onclick="changeTabunganMonth(1)" class="p-2.5 bg-gray-50 dark:bg-slate-700 rounded-xl active:scale-95 transition-transform"><svg class="w-5 h-5 text-gray-600 dark:text-slate-300"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+
+                <div class="bg-gradient-to-br from-bloom-lavender/30 to-bloom-lavender/10 dark:from-purple-900/40 dark:to-purple-900/10 rounded-3xl p-6 shadow-soft dark:shadow-soft-dark border border-bloom-lavender/40 dark:border-purple-800/40 text-center relative overflow-hidden">
+                    <p class="text-[10px] uppercase tracking-widest font-black text-bloom-lavenderText dark:text-purple-300 mb-2">Tabungan Bulan Ini</p>
+                    <p id="tabungan-total-bulan" class="text-4xl font-black text-bloom-lavenderText dark:text-purple-200 mb-3">Rp0</p>
+                    <p id="tabungan-rincian-bulan" class="text-xs font-bold text-bloom-lavenderText/80 dark:text-purple-300/80">0 Voucher × Rp0</p>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700 flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] uppercase tracking-widest font-bold text-gray-500 dark:text-slate-400 mb-1">Total Seluruh Tabungan</p>
+                        <p id="tabungan-total-semua" class="text-2xl font-black text-bloom-mintText dark:text-emerald-400">Rp0</p>
+                    </div>
+                    <span class="text-3xl">💰</span>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700">
+                    <h3 class="font-black text-gray-800 dark:text-white border-b border-gray-100 dark:border-slate-700 pb-3 mb-3">Riwayat Tabungan</h3>
+                    <div id="tabungan-riwayat" class="space-y-2.5">
+                        <!-- Injection -->
+                    </div>
+                </div>
+
+                <button onclick="switchTab('absen')" class="w-full bg-bloom-mint/20 dark:bg-emerald-900/30 text-bloom-mintText dark:text-emerald-400 font-bold py-3.5 rounded-2xl text-xs active:scale-95 transition-transform border border-bloom-mint/30 dark:border-emerald-800/40">✏️ Edit Data Absen Bulan Ini</button>
+            </div>
+        </main>
+
+        <!-- Fixed Bottom Navigation - Stays at bottom of max-w-md container -->
+        <nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-gray-100 dark:border-slate-800 absolute bottom-0 w-full max-w-md px-2 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] flex justify-around items-center z-50 shadow-nav dark:shadow-nav-dark flex-shrink-0">
+            <button onclick="switchTab('home')" class="nav-item active flex flex-col items-center gap-1.5 text-gray-400 dark:text-slate-500 w-16" data-target="home">
+                <svg><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span class="text-[9px] font-bold tracking-wide">Hari Ini</span>
+            </button>
+            <button onclick="switchTab('absen')" class="nav-item flex flex-col items-center gap-1.5 text-gray-400 dark:text-slate-500 w-16" data-target="absen">
+                <svg><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                <span class="text-[9px] font-bold tracking-wide">Absen</span>
+            </button>
+            <button onclick="switchTab('uang')" class="nav-item flex flex-col items-center gap-1.5 text-gray-400 dark:text-slate-500 w-16" data-target="uang">
+                <svg><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                <span class="text-[9px] font-bold tracking-wide">Uang</span>
+            </button>
+            <button onclick="switchTab('rekap')" class="nav-item flex flex-col items-center gap-1.5 text-gray-400 dark:text-slate-500 w-16" data-target="rekap">
+                <svg><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+                <span class="text-[9px] font-bold tracking-wide">Rekap</span>
+            </button>
+            <button onclick="switchTab('seting')" class="nav-item flex flex-col items-center gap-1.5 text-gray-400 dark:text-slate-500 w-16" data-target="seting">
+                <svg><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                <span class="text-[9px] font-bold tracking-wide">Seting</span>
+            </button>
+        </nav>
+
+        <!-- MODALS -->
+
+        <!-- Modal: ABSENSI -->
+        <div id="modal-absen" class="modal fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm items-end sm:items-center justify-center hidden">
+            <div class="modal-content bg-white dark:bg-slate-800 w-full max-w-md max-h-[92dvh] overflow-y-auto no-scrollbar rounded-t-[32px] sm:rounded-3xl p-6 pb-safe border-t border-white/20 dark:border-slate-700 relative">
+                <div class="absolute -left-10 -top-10 w-32 h-32 bg-bloom-mint/20 dark:bg-emerald-900/20 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="flex justify-between items-center mb-5 relative z-10">
+                    <h3 class="font-black text-xl text-gray-800 dark:text-white">Detail Absensi</h3>
+                    <button onclick="closeModal('modal-absen')" class="p-2 bg-gray-100 dark:bg-slate-700 rounded-full text-gray-500 dark:text-slate-300 active:scale-95 transition-transform"><svg class="w-4 h-4"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg></button>
+                </div>
+                <div class="relative z-10">
+                    <div class="flex items-center gap-2 mb-2">
+                        <button type="button" onclick="shiftAttendanceDate(-1)" class="p-2.5 bg-bloom-mint/20 dark:bg-emerald-900/30 rounded-xl text-bloom-mintText dark:text-emerald-400 active:scale-95 transition-transform flex-shrink-0"><svg class="w-4 h-4"><path d="m15 18-6-6 6-6"/></svg></button>
+                        <input type="date" id="absen-date-val" onchange="onAttendanceDateChange()" class="flex-1 w-full bg-bloom-mint/10 dark:bg-emerald-900/20 border border-bloom-mint/30 dark:border-emerald-800/40 text-bloom-mintText dark:text-emerald-400 font-black text-sm rounded-xl p-3 outline-none text-center">
+                        <button type="button" onclick="shiftAttendanceDate(1)" class="p-2.5 bg-bloom-mint/20 dark:bg-emerald-900/30 rounded-xl text-bloom-mintText dark:text-emerald-400 active:scale-95 transition-transform flex-shrink-0"><svg class="w-4 h-4"><path d="m9 18 6-6-6-6"/></svg></button>
+                    </div>
+                    <p id="absen-form-date-label" class="text-xs text-gray-400 dark:text-slate-500 font-bold mb-5 text-center"></p>
+                    
+                    <form id="form-absen" class="space-y-4" onsubmit="saveAttendance(event)">
+                        
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 dark:text-slate-400 mb-2">Status Kehadiran</label>
+                            <div class="relative">
+                                <select id="absen-status" class="w-full bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-2xl p-4 text-sm font-bold text-gray-800 dark:text-white outline-none focus:border-bloom-mintText dark:focus:border-emerald-500 transition-colors appearance-none" onchange="calculateFormVoucher()">
+                                    <option value="Belum Diisi">🌱 Belum Diisi</option>
+                                    <option value="Masuk">✅ Masuk</option>
+                                    <option value="Piket">🏃 Piket</option>
+                                    <option value="Telat">⏰ Telat</option>
+                                    <option value="Mens">🩸 Mens</option>
+                                    <option value="Kunjungan">📍 Kunjungan</option>
+                                    <option value="Off">🚫 Off</option>
+                                </select>
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"><svg class="w-5 h-5"><path d="m6 9 6 6 6-6"/></svg></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 dark:bg-slate-700/50 p-4 rounded-2xl border border-gray-200 dark:border-slate-600">
+                            <div class="flex items-center justify-between mb-3">
+                                <div>
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">🎤 Voucher Karaoke</p>
+                                    <p class="text-[10px] text-gray-500 dark:text-slate-400 font-bold mt-0.5">1 voucher karaoke = +2 voucher</p>
+                                </div>
+                                <span id="absen-karaoke-sum" class="text-xs font-black px-2.5 py-1 rounded-lg bg-bloom-mint/30 dark:bg-emerald-900/40 text-bloom-mintText dark:text-emerald-400">+0 V</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="adjustKaraoke(-1)" class="w-12 h-12 flex-shrink-0 rounded-xl bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600 text-xl font-black text-gray-600 dark:text-slate-200 active:scale-95 transition-transform">−</button>
+                                <input type="number" inputmode="numeric" id="absen-karaoke" min="0" max="99" value="0" class="flex-1 min-w-0 w-full bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-xl p-3 text-lg font-black text-gray-800 dark:text-white outline-none focus:border-bloom-mintText dark:focus:border-emerald-500 transition-colors text-center" oninput="calculateFormVoucher()">
+                                <button type="button" onclick="adjustKaraoke(1)" class="w-12 h-12 flex-shrink-0 rounded-xl bg-bloom-mintText dark:bg-emerald-600 text-white text-xl font-black active:scale-95 transition-transform">+</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 dark:text-slate-400 mb-2">Voucher Manual</label>
+                            <input type="number" id="absen-voucher" min="0" value="0" class="w-full bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-2xl p-4 text-sm font-bold text-gray-800 dark:text-white outline-none focus:border-bloom-mintText dark:focus:border-emerald-500 transition-colors text-center" oninput="calculateFormVoucher()">
+                            <p class="text-[9px] text-gray-400 dark:text-slate-500 font-bold mt-1.5 text-center">Voucher tambahan di luar karaoke (nilai 1:1)</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 dark:text-slate-400 mb-2">Catatan</label>
+                            <input type="text" id="absen-note" maxlength="120" placeholder="Opsional, mis. tamu, lokasi kunjungan" class="w-full bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-2xl p-4 text-sm font-bold text-gray-800 dark:text-white outline-none focus:border-bloom-mintText dark:focus:border-emerald-500 transition-colors">
+                        </div>
+
+                        <div class="bg-bloom-mint/20 dark:bg-emerald-900/30 p-4 rounded-2xl border border-bloom-mint/40 dark:border-emerald-800/40 space-y-2 mt-2">
+                            <div class="flex justify-between text-[11px] font-bold text-gray-500 dark:text-slate-400"><span>Manual</span><span id="absen-bd-manual">0</span></div>
+                            <div class="flex justify-between text-[11px] font-bold text-gray-500 dark:text-slate-400"><span id="absen-bd-karaoke-label">Karaoke (0 × 2)</span><span id="absen-bd-karaoke">0</span></div>
+                            <div class="flex justify-between items-center pt-2 border-t border-dashed border-bloom-mint/70 dark:border-emerald-800/60">
+                                <span class="text-xs font-bold text-bloom-mintText dark:text-emerald-400 uppercase tracking-widest">Total Hari Ini</span>
+                                <span id="absen-total-preview" class="text-2xl font-black text-bloom-mintText dark:text-emerald-400">0</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-bloom-mintText dark:bg-emerald-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition-transform mt-2">Simpan Absensi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: KEUANGAN -->
+        <div id="modal-uang" class="modal fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm items-end sm:items-center justify-center hidden">
+            <div class="modal-content bg-white dark:bg-slate-800 w-full max-w-md rounded-t-[32px] sm:rounded-3xl p-6 pb-safe border-t border-white/20 dark:border-slate-700 relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 w-32 h-32 bg-bloom-cream/20 dark:bg-amber-900/20 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="flex justify-between items-center mb-5 relative z-10">
+                    <h3 class="font-black text-xl text-gray-800 dark:text-white" id="uang-modal-title">Tambah Transaksi</h3>
+                    <button onclick="closeModal('modal-uang')" class="p-2 bg-gray-100 dark:bg-slate-700 rounded-full text-gray-500 dark:text-slate-300 active:scale-95 transition-transform"><svg class="w-4 h-4"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg></button>
+                </div>
+                
+                <form id="form-uang" class="space-y-4 relative z-10" onsubmit="saveFinance(event)">
+                    <input type="hidden" id="uang-id">
+                    
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 dark:text-slate-400 mb-2">Tanggal</label>
+                        <input type="date" id="uang-date" required class="w-full bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-2xl p-4 text-sm font-bold text-gray-800 dark:text-white outline-none focus:border-bloom-creamText dark:focus:border-amber-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 dark:text-slate-400 mb-2">Jenis</label>
+                        <div class="relative">
+                            <select id="uang-type" class="w-full bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-2xl p-4 text-sm font-bold text-gray-800 dark:text-white outline-none focus:border-bloom-creamText dark:focus:border-amber-500 appearance-none">
+                                <option value="tip">💵 Tip (Masuk)</option>
+                                <option value="income">💰 Pemasukan Lain (Masuk)</option>
+                                <option value="expense">💸 Pengeluaran/Kasbon (Keluar)</option>
+                            </select>
+                            <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"><svg class="w-5 h-5"><path d="m6 9 6 6 6-6"/></svg></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 dark:text-slate-400 mb-2">Nominal (Rp)</label>
+                        <input type="text" inputmode="numeric" id="uang-amount" required placeholder="Contoh: 1.000.000" class="w-full bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-2xl p-4 text-sm font-bold text-gray-800 dark:text-white outline-none focus:border-bloom-creamText dark:focus:border-amber-500" oninput="formatRupiahInput(this)">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 dark:text-slate-400 mb-2">Catatan</label>
+                        <input type="text" id="uang-note" placeholder="Opsional" class="w-full bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-2xl p-4 text-sm font-bold text-gray-800 dark:text-white outline-none focus:border-bloom-creamText dark:focus:border-amber-500">
+                    </div>
+
+                    <button type="submit" class="w-full bg-bloom-creamText dark:bg-amber-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition-transform mt-2">Simpan Transaksi</button>
+                    
+                    <button type="button" id="uang-btn-delete" onclick="deleteFinance()" class="hidden w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/30 font-bold py-4 rounded-2xl mt-2 active:scale-95 transition-transform">Hapus</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal: PENALTY MANUAL -->
+        <div id="modal-penalty" class="modal fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm items-end sm:items-center justify-center hidden">
+            <div class="modal-content bg-white dark:bg-slate-800 w-full max-w-md rounded-t-[32px] sm:rounded-3xl p-6 pb-safe border-t border-white/20 dark:border-slate-700">
+                <div class="flex justify-between items-center mb-5">
+                    <h3 class="font-black text-xl text-bloom-pinkText dark:text-pink-400">Penalty Manual</h3>
+                    <button onclick="closeModal('modal-penalty')" class="p-2 bg-gray-100 dark:bg-slate-700 rounded-full text-gray-500 dark:text-slate-300 active:scale-95 transition-transform"><svg class="w-4 h-4"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg></button>
+                </div>
+                
+                <form id="form-penalty" class="space-y-4" onsubmit="savePenalty(event)">
+                    <input type="hidden" id="penalty-id">
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 dark:text-slate-400 mb-2">Bulan</label>
+                        <input type="month" id="penalty-month" required class="w-full bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-2xl p-4 text-sm font-bold text-gray-800 dark:text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 dark:text-slate-400 mb-2">Voucher Hilang</label>
+                        <input type="number" id="penalty-amount" min="1" required class="w-full bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-2xl p-4 text-sm font-bold text-gray-800 dark:text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest font-bold text-gray-500 dark:text-slate-400 mb-2">Alasan</label>
+                        <input type="text" id="penalty-reason" required class="w-full bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-2xl p-4 text-sm font-bold text-gray-800 dark:text-white outline-none">
+                    </div>
+                    <button type="submit" class="w-full bg-bloom-pinkText dark:bg-pink-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition-transform mt-2">Simpan Penalty</button>
+                    <button type="button" id="penalty-btn-delete" onclick="deletePenalty()" class="hidden w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/30 font-bold py-4 rounded-2xl mt-2 active:scale-95 transition-transform">Hapus</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Custom Dialog (Replaces native alert/confirm) -->
+        <div id="modal-dialog" class="modal fixed inset-0 z-[100] bg-black/70 backdrop-blur-md items-center justify-center hidden p-4">
+            <div class="modal-content bg-white dark:bg-slate-800 w-full max-w-sm rounded-[28px] p-6 shadow-2xl border border-gray-100 dark:border-slate-700">
+                <h3 id="dialog-title" class="font-black text-xl text-gray-800 dark:text-white mb-2"></h3>
+                <p id="dialog-message" class="text-sm font-medium text-gray-600 dark:text-slate-300 mb-6 whitespace-pre-wrap leading-relaxed"></p>
+                <div class="flex gap-3 justify-end" id="dialog-buttons"></div>
+            </div>
+        </div>
+
+        <!-- Modal Judul Aplikasi -->
+        <div id="modal-title" class="modal fixed inset-0 z-[70] bg-black/60 backdrop-blur-sm items-end sm:items-center justify-center hidden">
+            <div class="modal-content bg-white dark:bg-slate-800 w-full max-w-md rounded-t-[32px] sm:rounded-3xl p-6 pb-safe border-t border-white/20 dark:border-slate-700">
+                <div class="flex justify-between items-center mb-5">
+                    <h3 class="font-black text-xl text-gray-800 dark:text-white">Judul Aplikasi</h3>
+                    <button type="button" onclick="closeModal('modal-title')" class="p-2 bg-gray-100 dark:bg-slate-700 rounded-full text-gray-500 dark:text-slate-300 active:scale-95 transition-transform text-sm font-black leading-none w-9 h-9">✕</button>
+                </div>
+                <form onsubmit="saveAppTitle(event)" class="space-y-4">
+                    <div>
+                        <input type="text" id="app-title-input" maxlength="30" autocomplete="off" placeholder="Emilia Tengil Batu" class="w-full bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-2xl p-4 text-base font-bold text-gray-800 dark:text-white outline-none focus:border-bloom-pinkText dark:focus:border-pink-500 transition-colors">
+                        <p class="text-[10px] font-semibold text-gray-500 dark:text-slate-400 mt-2 leading-relaxed">Tampil di header dan tab browser (maks. 30 karakter). Kosongkan lalu simpan untuk kembali ke judul awal. Nama ikon di layar utama HP mengikuti saat aplikasi dipasang.</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button type="button" onclick="resetAppTitle()" class="px-5 py-4 rounded-2xl text-sm font-bold text-gray-500 dark:text-slate-400 bg-gray-100 dark:bg-slate-700 active:scale-95 transition-transform">Reset</button>
+                        <button type="submit" class="flex-1 bg-bloom-pinkText dark:bg-pink-600 text-white font-bold py-4 rounded-2xl shadow-md active:scale-95 transition-transform">Simpan Judul</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Banner Pembaruan -->
+        <div id="update-banner" class="hidden fixed left-1/2 -translate-x-1/2 bottom-24 z-[105] w-[calc(100%-2rem)] max-w-sm bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl p-4 shadow-2xl items-center justify-between gap-3">
+            <p class="text-xs font-bold">Versi baru tersedia ✨</p>
+            <div class="flex gap-2">
+                <button onclick="dismissUpdate()" class="px-3 py-2 rounded-xl text-xs font-bold opacity-70 active:scale-95 transition-transform">Nanti</button>
+                <button onclick="applyUpdate()" class="px-3 py-2 rounded-xl text-xs font-bold bg-white text-gray-900 dark:bg-gray-900 dark:text-white active:scale-95 transition-transform">Muat Ulang</button>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="fixed top-[max(1rem,env(safe-area-inset-top))] left-1/2 -translate-x-1/2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-5 py-3 rounded-full text-sm font-bold shadow-2xl transition-all duration-300 transform -translate-y-24 opacity-0 z-[110] whitespace-nowrap border dark:border-gray-200">
+            Berhasil!
+        </div>
+
+    </div>
+
+    <script>
+        const DB_KEY = 'dailyEmeliaTengilData';
+        const APP_VERSION = '1.1.0';               // samakan dengan VERSION di sw.js
+        const APP_ID = 'Emilia Tengil Batu';        // jangan diubah: dipakai validasi file backup
+        const DEFAULT_TITLE = 'Emilia Tengil Batu';
+        const TITLE_KEY = 'etbAppTitle', BACKUP_KEY = 'etbLastBackup', SNOOZE_KEY = 'etbBackupSnooze';
+        let deferredInstallPrompt = null, swReg = null, lastActiveDay = null, storagePersisted = null;
+
+        function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+        function lsSet(k, v) { try { localStorage.setItem(k, v); return true; } catch (e) { return false; } }
+        function lsDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
+        const VOUCHER_VALUE = 400000;
+        const TARGET_DAYS = 18;
+        const WORKDAY_STATUSES = ['Masuk', 'Piket', 'Telat'];
+        const ACTIVE_STATUSES = ['Masuk', 'Piket', 'Telat', 'Kunjungan'];
+        const KARAOKE_MULTIPLIER = 2; // 1 voucher karaoke = +2 voucher
+
+        // Kompatibel data lama: toggle karaoke (true) = 1 voucher karaoke (+2)
+        function getKaraokeCount(record) {
+            if (record.karaokeCount !== undefined) return Math.max(0, parseInt(record.karaokeCount) || 0);
+            return record.karaoke ? 1 : 0;
+        }
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+        
+        let db = {
+            version: 5,
+            attendance: {}, 
+            transactions: [], 
+            manualPenalties: [],
+            monthStatus: {} 
+        };
+
+        let currentCalendarDate = new Date();
+        let currentTabunganDate = new Date();
+        let dialogConfirmCallback = null;
+
+        function initApp() {
+            loadData();
+            document.getElementById('header-date').textContent = formatDate(new Date());
+            applyAppTitle();
+            
+            generateMonthOptions('finance-month-filter');
+            generateMonthOptions('recap-month-select');
+            generateMonthOptions('home-month-select');
+            
+            document.getElementById('finance-month-filter').value = getMonthString(new Date());
+            document.getElementById('recap-month-select').value = getMonthString(new Date());
+            document.getElementById('home-month-select').value = getMonthString(new Date());
+            
+            renderDashboard();
+            renderCalendar();
+            renderFinanceList();
+            renderRecap();
+            renderTabungan();
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                lsSet('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                lsSet('theme', 'dark');
+            }
+            updateThemeColor();
+        }
+
+        function normalizeDb(d) {
+            d = (d && typeof d === 'object') ? d : {};
+            return {
+                ...d,
+                version: d.version || 5,
+                attendance: (d.attendance && typeof d.attendance === 'object') ? d.attendance : {},
+                transactions: Array.isArray(d.transactions) ? d.transactions : [],
+                manualPenalties: Array.isArray(d.manualPenalties) ? d.manualPenalties : [],
+                monthStatus: (d.monthStatus && typeof d.monthStatus === 'object') ? d.monthStatus : {}
+            };
+        }
+
+        function loadData() {
+            const raw = lsGet(DB_KEY);
+            if (raw) {
+                try {
+                    db = normalizeDb(JSON.parse(raw));
+                } catch (e) {
+                    console.error("Error loading DB", e);
+                }
+            }
+        }
+
+        function saveData() {
+            if (!lsSet(DB_KEY, JSON.stringify(db))) {
+                showDialog('Gagal Menyimpan', 'Penyimpanan perangkat penuh atau diblokir browser (mis. mode privat). Data terbaru belum tersimpan permanen — segera lakukan Backup.');
+            }
+            renderDashboard();
+            renderCalendar();
+            renderFinanceList();
+            renderRecap();
+            renderTabungan();
+            renderBackupReminder();
+        }
+
+        function getTodayString() { return formatDateString(new Date()); }
+        function formatDateString(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+        function getMonthString(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            return `${y}-${m}`;
+        }
+        function formatDate(date) {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('id-ID', options);
+        }
+        function formatDayMonth(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+        }
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount);
+        }
+
+        function formatRupiahInput(el) {
+            let raw = el.value.replace(/\D/g, '');
+            el.value = raw === '' ? '' : new Intl.NumberFormat('id-ID').format(parseInt(raw, 10));
+        }
+        function parseRupiahInput(val) {
+            return parseInt(String(val).replace(/\D/g, '')) || 0;
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.style.transform = 'translate(-50%, 0)';
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.transform = 'translate(-50%, -100px)';
+                toast.style.opacity = '0';
+            }, 2500);
+        }
+
+        function showDialog(title, message, type='info', onConfirm=null) {
+            document.getElementById('dialog-title').textContent = title;
+            document.getElementById('dialog-message').textContent = message;
+            const btnContainer = document.getElementById('dialog-buttons');
+            btnContainer.innerHTML = '';
+            
+            if (type === 'confirm') {
+                dialogConfirmCallback = onConfirm;
+                btnContainer.innerHTML = `
+                    <button onclick="closeDialog()" class="px-5 py-2.5 rounded-xl text-sm font-bold text-gray-500 dark:text-slate-400 bg-gray-100 dark:bg-slate-700 active:scale-95 transition-transform">Batal</button>
+                    <button onclick="executeDialogConfirm()" class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-bloom-lavenderText dark:bg-purple-600 shadow-md active:scale-95 transition-transform">Lanjutkan</button>
+                `;
+            } else {
+                btnContainer.innerHTML = `
+                    <button onclick="closeDialog()" class="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-bloom-mintText dark:bg-emerald-600 w-full shadow-md active:scale-95 transition-transform">OK Mengerti</button>
+                `;
+            }
+            
+            document.getElementById('modal-dialog').classList.add('active');
+        }
+
+        function closeDialog() {
+            document.getElementById('modal-dialog').classList.remove('active');
+            dialogConfirmCallback = null;
+        }
+
+        function executeDialogConfirm() {
+            if(dialogConfirmCallback) dialogConfirmCallback();
+            closeDialog();
+        }
+
+        function generateMonthOptions(selectId) {
+            const select = document.getElementById(selectId);
+            select.innerHTML = '';
+            const now = new Date();
+            for (let i = -12; i <= 1; i++) {
+                const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+                const val = getMonthString(d);
+                const label = d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+                const opt = document.createElement('option');
+                opt.value = val;
+                opt.textContent = label;
+                select.appendChild(opt);
+            }
+        }
+
+        function getDayCalc(dateStr) {
+            const record = db.attendance[dateStr] || { status: 'Belum Diisi', karaokeCount: 0, manualVoucher: 0 };
+
+            const workDay = WORKDAY_STATUSES.includes(record.status) ? 1 : 0;
+            const isLate = record.status === 'Telat';
+
+            const karaokeCount = ACTIVE_STATUSES.includes(record.status) ? getKaraokeCount(record) : 0;
+            const karaokeV = karaokeCount * KARAOKE_MULTIPLIER;
+
+            const manualV = parseInt(record.manualVoucher !== undefined ? record.manualVoucher : record.voucherAdditional) || 0;
+            return { status: record.status, workDay, manualV, karaokeCount, karaokeV, totalV: manualV + karaokeV, isLate, note: record.note || '' };
+        }
+
+        function getMonthSummary(yearMonthStr) { 
+            const [year, month] = yearMonthStr.split('-').map(Number);
+            const daysInMonth = new Date(year, month, 0).getDate();
+            
+            let summary = {
+                yearMonth: yearMonthStr, totalWorkDays: 0, totalLates: 0,
+                manualVoucher: 0, karaokeCount: 0, karaokeVoucher: 0, totalVoucherEarned: 0,
+                statusCounts: { 'Masuk':0, 'Piket':0, 'Telat':0, 'Mens':0, 'Kunjungan':0, 'Off':0, 'Belum Diisi':0 },
+                latePenalty: 0, targetPenalty: 0, manualPenalty: 0, totalVoucherLost: 0, netVoucher: 0, voucherValue: 0,
+                totalTip: 0, totalIncome: 0, totalExpense: 0, totalInflow: 0, netFinance: 0, allFilled: true,
+                isClosed: db.monthStatus[yearMonthStr] === 'CLOSED'
+            };
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                const dayCalc = getDayCalc(dateStr);
+                
+                summary.totalWorkDays += dayCalc.workDay;
+                if (dayCalc.isLate) summary.totalLates++;
+                summary.manualVoucher += dayCalc.manualV;
+                summary.karaokeCount += dayCalc.karaokeCount;
+                summary.karaokeVoucher += dayCalc.karaokeV;
+                summary.statusCounts[dayCalc.status] = (summary.statusCounts[dayCalc.status] || 0) + 1;
+                
+                if (dayCalc.status === 'Belum Diisi') summary.allFilled = false;
+            }
+            summary.totalVoucherEarned = summary.manualVoucher + summary.karaokeVoucher;
+
+            // Penalty Logic
+            if (summary.totalLates >= 3) summary.latePenalty = 1;
+            if (summary.isClosed && summary.totalWorkDays < TARGET_DAYS) summary.targetPenalty = TARGET_DAYS - summary.totalWorkDays;
+
+            const monthManuals = db.manualPenalties.filter(p => p.month === yearMonthStr);
+            summary.manualPenalty = monthManuals.reduce((sum, p) => sum + parseInt(p.amount), 0);
+
+            summary.totalVoucherLost = summary.latePenalty + summary.targetPenalty + summary.manualPenalty;
+            summary.netVoucher = Math.max(0, summary.totalVoucherEarned - summary.totalVoucherLost);
+            summary.voucherValue = summary.netVoucher * VOUCHER_VALUE;
+
+            // Financial Logic
+            const monthTrx = db.transactions.filter(t => t.date.startsWith(yearMonthStr));
+            monthTrx.forEach(t => {
+                const amt = parseInt(t.amount);
+                if (t.type === 'tip') summary.totalTip += amt;
+                else if (t.type === 'income') summary.totalIncome += amt;
+                else if (t.type === 'expense') summary.totalExpense += amt;
+            });
+
+            // Automatic integration
+            summary.totalInflow = summary.totalTip + summary.totalIncome + summary.voucherValue;
+            summary.netFinance = summary.totalInflow - summary.totalExpense;
+
+            if (summary.isClosed) summary.statusString = 'CLOSED';
+            else if (summary.allFilled) summary.statusString = 'READY TO CLOSE';
+            else summary.statusString = 'OPEN';
+
+            return summary;
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(`view-${tabId}`).classList.add('active');
+            const navBtn = document.querySelector(`.nav-item[data-target="${tabId}"]`);
+            if (navBtn) navBtn.classList.add('active');
+            window.scrollTo(0, 0); // Reset scroll position when switching tabs
+            
+            if(tabId === 'absen') renderCalendar();
+            if(tabId === 'rekap') renderRecap();
+            if(tabId === 'tabungan') renderTabungan();
+        }
+
+        function renderDashboard() {
+            const todayStr = getTodayString();
+            const dayCalc = getDayCalc(todayStr);
+            
+            document.getElementById('home-today-date').textContent = formatDayMonth(todayStr);
+            
+            const iconMap = {
+                'Masuk': '✅ Masuk', 'Piket': '🏃 Piket', 'Telat': '⏰ Telat',
+                'Mens': '🩸 Mens', 'Kunjungan': '📍 Kunjungan', 'Off': '🚫 Off', 'Belum Diisi': '🌱 Kosong'
+            };
+            document.getElementById('home-today-status').textContent = iconMap[dayCalc.status] || '-';
+            document.getElementById('home-today-voucher').textContent = dayCalc.totalV + ' V';
+
+            const monthSelect = document.getElementById('home-month-select');
+            const monthStr = monthSelect ? monthSelect.value : getMonthString(new Date());
+            const summary = getMonthSummary(monthStr);
+
+            const badge = document.getElementById('home-month-status-badge');
+            badge.textContent = summary.statusString;
+            badge.className = 'text-[10px] font-black px-2.5 py-1 rounded-md tracking-wider ' + 
+                (summary.statusString === 'CLOSED' ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400' : 
+                (summary.statusString === 'READY TO CLOSE' ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400' : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300'));
+
+            document.getElementById('home-workdays-text').textContent = `${summary.totalWorkDays} / 18`;
+            let progress = Math.min((summary.totalWorkDays / 18) * 100, 100);
+            document.getElementById('home-workdays-bar').style.width = `${progress}%`;
+            
+            document.getElementById('home-workdays-target').textContent = `Sisa target: ${Math.max(0, 18 - summary.totalWorkDays)} hari`;
+            document.getElementById('home-v-earned').textContent = summary.totalVoucherEarned;
+            document.getElementById('home-v-lost').textContent = summary.totalVoucherLost > 0 ? `-${summary.totalVoucherLost}` : '0';
+            document.getElementById('home-v-net').textContent = summary.netVoucher;
+            document.getElementById('home-v-value').textContent = formatRupiah(summary.voucherValue);
+
+            document.getElementById('home-f-net').textContent = formatRupiah(summary.netFinance);
+            document.getElementById('home-f-in').textContent = formatRupiah(summary.totalInflow);
+            document.getElementById('home-f-out').textContent = formatRupiah(summary.totalExpense);
+        }
+
+        function changeCalendarMonth(offset) {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + offset);
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            document.getElementById('calendar-month-year').textContent = currentCalendarDate.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < firstDay; i++) {
+                grid.appendChild(document.createElement('div'));
+            }
+
+            const todayStr = getTodayString();
+            const iconMap = {
+                'Masuk': '✅', 'Piket': '🏃', 'Telat': '⏰',
+                'Mens': '🩸', 'Kunjungan': '📍', 'Off': '🚫', 'Belum Diisi': '🌱'
+            };
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                const dayCalc = getDayCalc(dateStr);
+                const cell = document.createElement('button');
+                const isToday = dateStr === todayStr;
+                
+                let baseClasses = "relative h-14 rounded-2xl flex flex-col items-center justify-center border active:scale-95 transition-transform overflow-hidden ";
+                if (isToday) baseClasses += "border-bloom-mintText dark:border-emerald-500 bg-bloom-mint/20 dark:bg-emerald-900/40 shadow-sm";
+                else baseClasses += "border-gray-100 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50";
+
+                let icon = iconMap[dayCalc.status] || '🌱';
+                let opacity = dayCalc.status === 'Belum Diisi' ? "opacity-30" : "";
+
+                cell.className = baseClasses;
+                cell.onclick = () => openAttendanceModal(dateStr);
+
+                let dotHtml = (dayCalc.karaokeCount > 0) ? `<span class="absolute top-1 right-1.5 text-[8px] font-black text-bloom-mintText dark:text-emerald-400 leading-none">🎤${dayCalc.karaokeCount}</span>` : '';
+                if (dayCalc.note) dotHtml += `<div class="absolute top-1.5 left-1.5 w-1.5 h-1.5 bg-bloom-blueText dark:bg-blue-400 rounded-full"></div>`;
+                let vBadge = dayCalc.totalV > 0 ? `<span class="absolute -bottom-0.5 text-[8px] font-black text-white bg-bloom-mintText dark:bg-emerald-500 px-1.5 py-0.5 rounded-t-lg shadow-sm">${dayCalc.totalV}V</span>` : '';
+
+                cell.innerHTML = `${dotHtml}<span class="text-[10px] font-bold text-gray-700 dark:text-slate-300 mt-1">${i}</span><span class="text-base ${opacity} -mt-0.5">${icon}</span>${vBadge}`;
+                grid.appendChild(cell);
+            }
+            renderAbsenDetail();
+        }
+
+        function renderAbsenDetail() {
+            const el = document.getElementById('absen-detail');
+            if (!el) return;
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const iconMap = { 'Masuk': '✅', 'Piket': '🏃', 'Telat': '⏰', 'Mens': '🩸', 'Kunjungan': '📍', 'Off': '🚫' };
+
+            let workDays = 0, manualTotal = 0, karaokeCount = 0, karaokeTotal = 0, filled = 0;
+            let rows = '';
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                const c = getDayCalc(dateStr);
+                if (c.status === 'Belum Diisi') continue;
+                filled++;
+                workDays += c.workDay; manualTotal += c.manualV; karaokeCount += c.karaokeCount; karaokeTotal += c.karaokeV;
+                const dateLabel = new Date(year, month, i).toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' });
+                let chips = '';
+                if (c.manualV > 0) chips += `<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-bloom-blue/30 dark:bg-blue-900/30 text-bloom-blueText dark:text-blue-300">Manual +${c.manualV}</span>`;
+                if (c.karaokeCount > 0) chips += `<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-bloom-mint/40 dark:bg-emerald-900/30 text-bloom-mintText dark:text-emerald-400">🎤 ${c.karaokeCount}×2 = +${c.karaokeV}</span>`;
+                rows += `
+                    <button onclick="openAttendanceModal('${dateStr}')" class="w-full text-left flex items-center gap-3 bg-gray-50 dark:bg-slate-700/40 p-3 rounded-2xl border border-gray-100 dark:border-slate-700 active:scale-[0.98] transition-transform">
+                        <span class="text-xl flex-shrink-0">${iconMap[c.status] || '🌱'}</span>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs font-bold text-gray-800 dark:text-white">${dateLabel} <span class="text-gray-400 dark:text-slate-500 font-semibold">· ${c.status}</span></p>
+                            ${chips ? `<div class="flex flex-wrap gap-1 mt-1.5">${chips}</div>` : ''}
+                            ${c.note ? `<p class="text-[10px] text-gray-500 dark:text-slate-400 font-semibold mt-1.5 truncate">📝 ${escapeHtml(c.note)}</p>` : ''}
+                        </div>
+                        <span class="font-black text-sm ${c.totalV > 0 ? 'text-bloom-mintText dark:text-emerald-400' : 'text-gray-300 dark:text-slate-600'}">${c.totalV}V</span>
+                    </button>`;
+            }
+            if (!rows) rows = `<div class="text-center p-6 text-gray-400 dark:text-slate-500 font-bold text-xs bg-gray-50 dark:bg-slate-800/50 rounded-2xl border border-dashed border-gray-200 dark:border-slate-700">Belum ada absensi terisi bulan ini</div>`;
+
+            el.innerHTML = `
+                <div class="flex justify-between items-center border-b border-gray-100 dark:border-slate-700 pb-3 mb-4">
+                    <h3 class="font-black text-gray-800 dark:text-white">Rincian Absensi</h3>
+                    <span class="text-[10px] font-bold text-gray-400 dark:text-slate-500">Terisi ${filled} / ${daysInMonth} hari</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2.5 mb-4">
+                    <div class="bg-bloom-blue/10 dark:bg-blue-900/20 p-3 rounded-2xl border border-bloom-blue/20 dark:border-blue-800/30">
+                        <p class="text-[9px] uppercase tracking-widest font-bold text-bloom-blueText dark:text-blue-400">Hari Kerja</p>
+                        <p class="font-black text-lg text-bloom-blueText dark:text-blue-300">${workDays} <span class="text-[10px] font-bold opacity-70">/ ${TARGET_DAYS}</span></p>
+                    </div>
+                    <div class="bg-bloom-blue/10 dark:bg-blue-900/20 p-3 rounded-2xl border border-bloom-blue/20 dark:border-blue-800/30">
+                        <p class="text-[9px] uppercase tracking-widest font-bold text-bloom-blueText dark:text-blue-400">Voucher Manual</p>
+                        <p class="font-black text-lg text-bloom-blueText dark:text-blue-300">${manualTotal}</p>
+                    </div>
+                    <div class="bg-bloom-mint/20 dark:bg-emerald-900/20 p-3 rounded-2xl border border-bloom-mint/40 dark:border-emerald-800/30">
+                        <p class="text-[9px] uppercase tracking-widest font-bold text-bloom-mintText dark:text-emerald-400">🎤 Karaoke</p>
+                        <p class="font-black text-lg text-bloom-mintText dark:text-emerald-300">${karaokeCount} <span class="text-[10px] font-bold opacity-70">= +${karaokeTotal} V</span></p>
+                    </div>
+                    <div class="bg-bloom-lavender/20 dark:bg-purple-900/20 p-3 rounded-2xl border border-bloom-lavender/40 dark:border-purple-800/30">
+                        <p class="text-[9px] uppercase tracking-widest font-bold text-bloom-lavenderText dark:text-purple-400">Total Voucher</p>
+                        <p class="font-black text-lg text-bloom-lavenderText dark:text-purple-300">${manualTotal + karaokeTotal}</p>
+                    </div>
+                </div>
+                <div class="space-y-2">${rows}</div>`;
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function loadAttendanceFormForDate(dateStr) {
+            const record = db.attendance[dateStr] || { status: 'Belum Diisi', karaokeCount: 0, manualVoucher: 0 };
+            document.getElementById('absen-date-val').value = dateStr;
+            document.getElementById('absen-form-date-label').textContent = formatDate(new Date(dateStr + 'T00:00:00'));
+            document.getElementById('absen-status').value = record.status;
+            document.getElementById('absen-karaoke').value = getDayCalc(dateStr).karaokeCount;
+            document.getElementById('absen-note').value = record.note || '';
+            document.getElementById('absen-voucher').value = record.manualVoucher !== undefined ? record.manualVoucher : (record.voucherAdditional || 0);
+
+            const isClosed = db.monthStatus[dateStr.substring(0, 7)] === 'CLOSED';
+            const btn = document.querySelector('#form-absen button[type="submit"]');
+
+            if(isClosed) {
+                btn.disabled = true; btn.textContent = "Bulan Sudah Ditutup 🔒";
+                btn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
+                btn.classList.remove('bg-bloom-mintText');
+            } else {
+                btn.disabled = false; btn.textContent = "Simpan Absensi";
+                btn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
+                btn.classList.add('bg-bloom-mintText');
+            }
+            calculateFormVoucher();
+        }
+
+        function openAttendanceModal(dateStr) {
+            loadAttendanceFormForDate(dateStr);
+            openModal('modal-absen');
+        }
+
+        function onAttendanceDateChange() {
+            const dateStr = document.getElementById('absen-date-val').value;
+            if (dateStr) loadAttendanceFormForDate(dateStr);
+        }
+
+        function shiftAttendanceDate(offset) {
+            const current = document.getElementById('absen-date-val').value;
+            const [y, m, d] = current.split('-').map(Number);
+            const dateObj = new Date(y, m - 1, d);
+            dateObj.setDate(dateObj.getDate() + offset);
+            loadAttendanceFormForDate(formatDateString(dateObj));
+        }
+
+        function adjustKaraoke(delta) {
+            const status = document.getElementById('absen-status').value;
+            if (!ACTIVE_STATUSES.includes(status)) {
+                showToast("Karaoke hanya untuk status Masuk, Piket, Telat, atau Kunjungan");
+                return;
+            }
+            const el = document.getElementById('absen-karaoke');
+            el.value = Math.min(99, Math.max(0, (parseInt(el.value) || 0) + delta));
+            calculateFormVoucher();
+        }
+
+        function calculateFormVoucher() {
+            const status = document.getElementById('absen-status').value;
+            const karaokeEl = document.getElementById('absen-karaoke');
+            const manualEl = document.getElementById('absen-voucher');
+
+            let manualV = parseInt(manualEl.value) || 0;
+            if (manualV < 0) { manualV = 0; manualEl.value = 0; }
+
+            let karaokeN = parseInt(karaokeEl.value) || 0;
+            if (karaokeN < 0) { karaokeN = 0; karaokeEl.value = 0; }
+            if (karaokeN > 99) { karaokeN = 99; karaokeEl.value = 99; }
+            if (karaokeN > 0 && !ACTIVE_STATUSES.includes(status)) {
+                karaokeN = 0; karaokeEl.value = 0;
+                showToast("Karaoke tidak berlaku untuk status ini");
+            }
+
+            const karaokeV = karaokeN * KARAOKE_MULTIPLIER;
+            document.getElementById('absen-karaoke-sum').textContent = `+${karaokeV} V`;
+            document.getElementById('absen-bd-manual').textContent = manualV;
+            document.getElementById('absen-bd-karaoke-label').textContent = `Karaoke (${karaokeN} × ${KARAOKE_MULTIPLIER})`;
+            document.getElementById('absen-bd-karaoke').textContent = karaokeV;
+            document.getElementById('absen-total-preview').textContent = manualV + karaokeV;
+        }
+
+        function saveAttendance(e) {
+            e.preventDefault();
+            const dateStr = document.getElementById('absen-date-val').value;
+            const status = document.getElementById('absen-status').value;
+            const manualVoucher = Math.max(0, parseInt(document.getElementById('absen-voucher').value) || 0);
+            const karaokeCount = ACTIVE_STATUSES.includes(status)
+                ? Math.min(99, Math.max(0, parseInt(document.getElementById('absen-karaoke').value) || 0))
+                : 0;
+            const note = document.getElementById('absen-note').value.trim();
+
+            db.attendance[dateStr] = { status, karaokeCount, manualVoucher, note, updatedAt: new Date().toISOString() };
+            saveData();
+            closeModal('modal-absen');
+            showToast('Absen disimpan!');
+        }
+
+        function openFinanceModal(id = null) {
+            const form = document.getElementById('form-uang');
+            const btnDelete = document.getElementById('uang-btn-delete');
+            form.reset();
+            if (id) {
+                const trx = db.transactions.find(t => t.id === id);
+                if(trx) {
+                    document.getElementById('uang-modal-title').textContent = "Edit Transaksi";
+                    document.getElementById('uang-id').value = trx.id;
+                    document.getElementById('uang-date').value = trx.date;
+                    document.getElementById('uang-type').value = trx.type;
+                    document.getElementById('uang-amount').value = new Intl.NumberFormat('id-ID').format(trx.amount);
+                    document.getElementById('uang-note').value = trx.note || "";
+                    btnDelete.classList.remove('hidden');
+                }
+            } else {
+                document.getElementById('uang-modal-title').textContent = "Tambah Transaksi";
+                document.getElementById('uang-id').value = "";
+                document.getElementById('uang-date').value = getTodayString();
+                btnDelete.classList.add('hidden');
+            }
+            openModal('modal-uang');
+        }
+
+        function saveFinance(e) {
+            e.preventDefault();
+            const id = document.getElementById('uang-id').value;
+            const date = document.getElementById('uang-date').value;
+            const type = document.getElementById('uang-type').value;
+            const amount = parseRupiahInput(document.getElementById('uang-amount').value);
+            const note = document.getElementById('uang-note').value;
+
+            if (amount < 0) return showDialog('Error', "Nominal tidak boleh negatif");
+
+            if (id) {
+                const index = db.transactions.findIndex(t => t.id === id);
+                if (index !== -1) db.transactions[index] = { ...db.transactions[index], date, type, amount, note, updatedAt: new Date().toISOString() };
+            } else {
+                db.transactions.push({ id: 'trx_' + Date.now(), date, type, amount, note, createdAt: new Date().toISOString() });
+            }
+            saveData();
+            closeModal('modal-uang');
+            showToast('Transaksi disimpan!');
+        }
+
+        function deleteFinance() {
+            showDialog('Hapus Transaksi', 'Apakah Anda yakin ingin menghapus transaksi ini? Data tidak bisa dikembalikan.', 'confirm', () => {
+                db.transactions = db.transactions.filter(t => t.id !== document.getElementById('uang-id').value);
+                saveData();
+                closeModal('modal-uang');
+                showToast('Transaksi dihapus');
+            });
+        }
+
+        function renderFinanceList() {
+            const monthStr = document.getElementById('finance-month-filter').value;
+            const list = document.getElementById('finance-list');
+            list.innerHTML = '';
+
+            const summary = getMonthSummary(monthStr);
+            const filtered = db.transactions.filter(t => t.date.startsWith(monthStr)).sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt));
+
+            let html = '';
+            
+            // Automatic Voucher Integration display
+            if (summary.voucherValue > 0) {
+                html += `
+                    <div class="bg-gradient-to-r from-bloom-lavender/20 to-bloom-lavender/5 dark:from-purple-900/30 dark:to-purple-900/10 p-4 rounded-3xl shadow-sm border border-bloom-lavender/40 dark:border-purple-800/40 flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="text-2xl bg-white/50 dark:bg-slate-800/50 p-2.5 rounded-2xl shadow-sm">🌸</div>
+                            <div>
+                                <p class="font-black text-bloom-lavenderText dark:text-purple-300 text-sm">Nilai Voucher Bersih</p>
+                                <p class="text-[10px] font-bold text-bloom-lavenderText/70 dark:text-purple-400 mt-0.5 uppercase tracking-widest">Otomatis Masuk</p>
+                            </div>
+                        </div>
+                        <div class="font-black text-lg text-bloom-lavenderText dark:text-purple-300">+${formatRupiah(summary.voucherValue)}</div>
+                    </div>
+                `;
+            }
+
+            if (filtered.length === 0 && summary.voucherValue === 0) {
+                list.innerHTML = `<div class="text-center p-10 text-gray-400 dark:text-slate-500 font-bold text-sm bg-gray-50 dark:bg-slate-800/50 rounded-3xl border border-dashed border-gray-200 dark:border-slate-700">Belum ada transaksi bulan ini</div>`;
+                return;
+            }
+
+            filtered.forEach(t => {
+                let icon, colorClass, prefix, bgClass;
+                if (t.type === 'tip') { icon = '💵'; colorClass = 'text-green-600 dark:text-green-400'; prefix = '+'; bgClass = 'bg-green-50 dark:bg-green-900/20 text-green-600'; }
+                else if (t.type === 'income') { icon = '💰'; colorClass = 'text-green-600 dark:text-green-400'; prefix = '+'; bgClass = 'bg-green-50 dark:bg-green-900/20 text-green-600'; }
+                else { icon = '💸'; colorClass = 'text-red-500 dark:text-red-400'; prefix = '-'; bgClass = 'bg-red-50 dark:bg-red-900/20 text-red-500'; }
+
+                html += `
+                    <div onclick="openFinanceModal('${t.id}')" class="bg-white dark:bg-slate-800 p-4 rounded-3xl shadow-soft border border-gray-100 dark:border-slate-700 flex items-center justify-between active:scale-95 transition-transform cursor-pointer group">
+                        <div class="flex items-center gap-4">
+                            <div class="text-xl ${bgClass} p-3 rounded-2xl transition-colors group-hover:bg-opacity-80">${icon}</div>
+                            <div>
+                                <p class="font-bold text-gray-800 dark:text-white text-sm">${t.type === 'tip' ? 'Tip' : t.type === 'income' ? 'Pemasukan Lain' : 'Pengeluaran/Kasbon'}</p>
+                                <div class="flex items-center gap-2 text-[10px] text-gray-500 dark:text-slate-400 font-bold mt-1">
+                                    <span class="bg-gray-100 dark:bg-slate-700 px-2 py-0.5 rounded-md">${formatDayMonth(t.date)}</span>
+                                    ${t.note ? `<span class="max-w-[120px] truncate opacity-70">&bull; ${t.note}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="font-black ${colorClass}">${prefix}${formatRupiah(t.amount)}</div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML += html;
+        }
+
+        function toggleMonthStatus(monthStr, currentStatus, isReady) {
+            if (currentStatus === 'CLOSED') {
+                showDialog('Buka Kembali Bulan', 'Anda yakin ingin membuka kembali bulan ini? Penalty target akan dihapus sementara dan dihitung ulang saat bulan ditutup lagi.', 'confirm', () => {
+                    db.monthStatus[monthStr] = 'OPEN';
+                    saveData();
+                    showToast('Bulan dibuka kembali');
+                });
+            } else {
+                if (!isReady) return showDialog('Belum Lengkap', "Masih ada tanggal yang 'Belum Diisi' (🌱). Mohon lengkapi absensi seluruh hari dalam bulan ini terlebih dahulu.");
+                const sum = getMonthSummary(monthStr);
+                let msg = `Total Hari Kerja: ${sum.totalWorkDays} / 18 Hari\n\n`;
+                if(sum.totalWorkDays < 18) {
+                    msg += `⚠️ PERHATIAN!\nKarena hari kerja kurang dari 18 hari, Anda akan terkena Penalty Target sebesar ${18 - sum.totalWorkDays} Voucher Hilang.\n\n`;
+                }
+                msg += `Apakah Anda yakin ingin memfinalisasi dan menutup bulan ini?`;
+                
+                showDialog(`Tutup Laporan ${monthStr}`, msg, 'confirm', () => {
+                    db.monthStatus[monthStr] = 'CLOSED';
+                    saveData();
+                    showToast('Bulan berhasil ditutup');
+                });
+            }
+        }
+
+        function openPenaltyModal(monthStr, id = null) {
+            const form = document.getElementById('form-penalty');
+            const btnDelete = document.getElementById('penalty-btn-delete');
+            form.reset();
+            document.getElementById('penalty-month').value = monthStr;
+            if (id) {
+                const p = db.manualPenalties.find(x => x.id === id);
+                if (p) {
+                    document.getElementById('penalty-id').value = p.id;
+                    document.getElementById('penalty-amount').value = p.amount;
+                    document.getElementById('penalty-reason').value = p.reason;
+                    btnDelete.classList.remove('hidden');
+                }
+            } else {
+                document.getElementById('penalty-id').value = "";
+                btnDelete.classList.add('hidden');
+            }
+            openModal('modal-penalty');
+        }
+
+        function savePenalty(e) {
+            e.preventDefault();
+            const id = document.getElementById('penalty-id').value;
+            const month = document.getElementById('penalty-month').value;
+            const amount = parseInt(document.getElementById('penalty-amount').value);
+            const reason = document.getElementById('penalty-reason').value;
+
+            if (id) {
+                const index = db.manualPenalties.findIndex(x => x.id === id);
+                if(index > -1) db.manualPenalties[index] = { id, month, amount, reason };
+            } else {
+                db.manualPenalties.push({ id: 'pen_' + Date.now(), month, amount, reason });
+            }
+            saveData(); closeModal('modal-penalty');
+            showToast('Penalty disimpan');
+        }
+
+        function deletePenalty() {
+            showDialog('Hapus Penalty', 'Yakin ingin menghapus penalty manual ini?', 'confirm', () => {
+                db.manualPenalties = db.manualPenalties.filter(x => x.id !== document.getElementById('penalty-id').value);
+                saveData(); closeModal('modal-penalty');
+                showToast('Penalty dihapus');
+            });
+        }
+
+        function renderRecap() {
+            const monthStr = document.getElementById('recap-month-select').value;
+            const summary = getMonthSummary(monthStr);
+            const content = document.getElementById('recap-content');
+
+            let btnActionHtml = '';
+            if (summary.isClosed) {
+                btnActionHtml = `<button onclick="toggleMonthStatus('${monthStr}', 'CLOSED', true)" class="w-full bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 font-bold py-4 rounded-2xl border border-gray-200 dark:border-slate-600 active:scale-95 transition-transform flex justify-center items-center gap-2"><svg class="w-4 h-4"><path d="M2 12A10 10 0 1 0 12 2v10z"/><path d="M12 2A10 10 0 0 1 22 12h-10z"/></svg> Buka Kembali Bulan (Reopen)</button>`;
+            } else {
+                let btnClass = summary.allFilled ? 'bg-bloom-lavender text-bloom-lavenderText dark:bg-purple-600 dark:text-white shadow-md active:scale-95 transition-transform' : 'bg-gray-100 dark:bg-slate-700 text-gray-400 dark:text-slate-500 cursor-not-allowed';
+                btnActionHtml = `<button onclick="toggleMonthStatus('${monthStr}', 'OPEN', ${summary.allFilled})" class="w-full font-bold py-4 rounded-2xl flex justify-center items-center gap-2 ${btnClass}"><svg class="w-4 h-4"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Finalisasi & Tutup Bulan</button>`;
+                if (!summary.allFilled) btnActionHtml += `<p class="text-[10px] text-center text-red-400 dark:text-red-500 mt-3 font-bold bg-red-50 dark:bg-red-900/20 py-2 rounded-lg">Peringatan: Masih ada tanggal belum diisi (🌱)</p>`;
+            }
+
+            let manualHtml = db.manualPenalties.filter(p => p.month === monthStr).map(p => `
+                <div class="flex justify-between items-center text-xs mt-2 bg-red-50 dark:bg-red-900/20 p-2.5 rounded-lg cursor-pointer border border-transparent dark:border-red-800/30 active:scale-95 transition-transform" onclick="openPenaltyModal('${monthStr}', '${p.id}')">
+                    <span class="text-red-500 dark:text-red-400 font-semibold flex items-center gap-1.5"><svg class="w-3 h-3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> ${p.reason}</span>
+                    <span class="font-black text-red-600 dark:text-red-400">-${p.amount}</span>
+                </div>`).join('');
+
+            content.innerHTML = `
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700">
+                    <div class="flex justify-between items-center mb-5">
+                        <span class="text-[10px] font-bold text-gray-500 dark:text-slate-400 uppercase tracking-widest">Status Rekap</span>
+                        <span class="text-[10px] font-black px-3 py-1.5 rounded-md tracking-wider ${summary.isClosed ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400' : (summary.allFilled ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400' : 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-400')}">${summary.statusString}</span>
+                    </div>
+                    ${btnActionHtml}
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700">
+                    <h3 class="font-black text-gray-800 dark:text-white border-b border-gray-100 dark:border-slate-700 pb-3 mb-4 flex items-center gap-2"><svg class="w-4 h-4 text-bloom-blueText"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> Rincian Hari Kerja</h3>
+                    <div class="grid grid-cols-2 gap-y-3 text-sm font-semibold">
+                        <div class="text-gray-500 dark:text-slate-400">Total Hari Kerja</div>
+                        <div class="text-right font-black text-bloom-blueText dark:text-blue-400 text-base">${summary.totalWorkDays} / 18</div>
+                        
+                        <div class="col-span-2 border-t border-dashed border-gray-100 dark:border-slate-700 my-1"></div>
+
+                        <div class="text-gray-600 dark:text-slate-300">✅ Masuk</div><div class="text-right">${summary.statusCounts['Masuk']}</div>
+                        <div class="text-gray-600 dark:text-slate-300">🏃 Piket</div><div class="text-right">${summary.statusCounts['Piket']}</div>
+                        <div class="text-gray-600 dark:text-slate-300">⏰ Telat</div><div class="text-right">${summary.statusCounts['Telat']}</div>
+                        <div class="text-gray-600 dark:text-slate-300">🩸 Mens</div><div class="text-right">${summary.statusCounts['Mens']}</div>
+                        <div class="text-gray-600 dark:text-slate-300">📍 Kunjungan</div><div class="text-right">${summary.statusCounts['Kunjungan']}</div>
+                        <div class="text-gray-600 dark:text-slate-300">🚫 Off</div><div class="text-right">${summary.statusCounts['Off']}</div>
+                        <div class="text-red-400 font-bold bg-red-50 dark:bg-red-900/20 px-2 rounded">🌱 Belum Diisi</div><div class="text-right text-red-500 font-bold bg-red-50 dark:bg-red-900/20 px-2 rounded">${summary.statusCounts['Belum Diisi']}</div>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700 relative overflow-hidden">
+                    <div class="flex justify-between items-center border-b border-gray-100 dark:border-slate-700 pb-3 mb-4 relative z-10">
+                        <h3 class="font-black text-gray-800 dark:text-white flex items-center gap-2"><svg class="w-4 h-4 text-bloom-mintText"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Perhitungan Voucher</h3>
+                        <button onclick="openPenaltyModal('${monthStr}')" class="text-[10px] bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-3 py-2 rounded-xl font-bold active:scale-95 transition-transform border border-red-100 dark:border-red-800/30">+ Manual</button>
+                    </div>
+                    
+                    <div class="space-y-3 text-sm font-semibold border-b border-dashed border-gray-200 dark:border-slate-600 pb-4 mb-4 relative z-10">
+                        <div class="flex justify-between"><span class="text-gray-500 dark:text-slate-400">Voucher Manual</span><span class="dark:text-slate-200">${summary.manualVoucher}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500 dark:text-slate-400">Voucher Karaoke <span class="text-[10px] text-gray-400 dark:text-slate-500">(${summary.karaokeCount} × ${KARAOKE_MULTIPLIER})</span></span><span class="dark:text-slate-200">${summary.karaokeVoucher}</span></div>
+                        <div class="flex justify-between mt-3 pt-3 border-t border-gray-100 dark:border-slate-700"><span class="font-black text-gray-700 dark:text-slate-300 uppercase tracking-widest text-xs">Total Didapat</span><span class="font-black text-bloom-mintText dark:text-emerald-400 text-lg">${summary.totalVoucherEarned}</span></div>
+                    </div>
+
+                    <div class="space-y-3 text-sm font-semibold border-b border-gray-200 dark:border-slate-700 pb-4 mb-4 relative z-10">
+                        <div class="flex justify-between"><span class="text-gray-500 dark:text-slate-400">Penalty Telat (${summary.totalLates}x)</span><span class="text-red-500 dark:text-red-400">-${summary.latePenalty}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500 dark:text-slate-400">Penalty Target${!summary.isClosed ? ' (Estimasi)' : ''}</span><span class="text-red-500 dark:text-red-400">-${summary.targetPenalty}</span></div>
+                        <div class="flex justify-between items-start">
+                            <span class="text-gray-500 dark:text-slate-400 pt-1">Penalty Manual</span>
+                            <div class="text-right w-2/3">
+                                <span class="text-red-500 dark:text-red-400">-${summary.manualPenalty}</span>
+                                ${manualHtml}
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-3 pt-3 border-t border-gray-100 dark:border-slate-700"><span class="font-black text-gray-700 dark:text-slate-300 uppercase tracking-widest text-xs">Total Hilang</span><span class="font-black text-red-600 dark:text-red-400 text-lg">-${summary.totalVoucherLost}</span></div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-bloom-lavender/30 to-bloom-lavender/10 dark:from-purple-900/40 dark:to-purple-900/10 p-5 rounded-2xl flex justify-between items-center border border-bloom-lavender/40 dark:border-purple-800/40 relative z-10">
+                        <div>
+                            <p class="text-[11px] font-black uppercase tracking-widest text-bloom-lavenderText dark:text-purple-400">Voucher Bersih</p>
+                            <p class="text-[10px] font-bold text-gray-600 dark:text-purple-300/80 mt-1.5 flex items-center gap-1"><svg class="w-3 h-3"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Diuangkan: ${formatRupiah(summary.voucherValue)}</p>
+                        </div>
+                        <span class="text-4xl font-black text-bloom-lavenderText dark:text-purple-300">${summary.netVoucher}</span>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-slate-700 relative overflow-hidden">
+                    <h3 class="font-black text-gray-800 dark:text-white border-b border-gray-100 dark:border-slate-700 pb-3 mb-4 flex items-center gap-2"><svg class="w-4 h-4 text-bloom-creamText dark:text-amber-500"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Keuangan Aktual (Otomatis)</h3>
+                    <div class="space-y-3 text-sm font-semibold border-b border-gray-100 dark:border-slate-700 pb-4 mb-4">
+                        <div class="flex justify-between"><span class="text-gray-500 dark:text-slate-400">Nilai Voucher Bersih</span><span class="text-green-600 dark:text-green-400">+${formatRupiah(summary.voucherValue)}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500 dark:text-slate-400">Total Tip</span><span class="text-green-600 dark:text-green-400">+${formatRupiah(summary.totalTip)}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500 dark:text-slate-400">Pemasukan Lain</span><span class="text-green-600 dark:text-green-400">+${formatRupiah(summary.totalIncome)}</span></div>
+                        <div class="flex justify-between pt-2 mt-2 border-t border-dashed border-gray-100 dark:border-slate-700"><span class="font-black text-gray-700 dark:text-slate-300 uppercase tracking-widest text-xs">Total Pemasukan</span><span class="font-black text-green-600 dark:text-green-400">${formatRupiah(summary.totalInflow)}</span></div>
+                        <div class="flex justify-between pt-2"><span class="text-gray-500 dark:text-slate-400">Pengeluaran / Kasbon</span><span class="text-red-500 dark:text-red-400">-${formatRupiah(summary.totalExpense)}</span></div>
+                    </div>
+                    <div class="flex justify-between items-center bg-gradient-to-r from-bloom-cream/40 to-bloom-cream/10 dark:from-amber-900/40 dark:to-amber-900/10 p-5 rounded-2xl border border-bloom-cream/50 dark:border-amber-800/40">
+                        <span class="font-black text-bloom-creamText dark:text-amber-500 text-xs uppercase tracking-widest">Keuangan Bersih</span>
+                        <span class="font-black text-bloom-creamText dark:text-amber-400 text-xl">${formatRupiah(summary.netFinance)}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function changeTabunganMonth(offset) {
+            currentTabunganDate.setMonth(currentTabunganDate.getMonth() + offset);
+            renderTabungan();
+        }
+
+        function renderTabungan() {
+            const labelEl = document.getElementById('tabungan-month-label');
+            if (!labelEl) return; // View belum ter-render di DOM
+
+            const monthStr = getMonthString(currentTabunganDate);
+            labelEl.textContent = currentTabunganDate.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+
+            // Sumber data tunggal: hasil bulan diambil otomatis dari getMonthSummary (sama dgn Rekap & Uang)
+            const summary = getMonthSummary(monthStr);
+            document.getElementById('tabungan-total-bulan').textContent = formatRupiah(summary.voucherValue);
+            document.getElementById('tabungan-rincian-bulan').textContent = `${summary.netVoucher} Voucher × ${formatRupiah(VOUCHER_VALUE)}`;
+
+            // Kumpulkan semua bulan yang sudah punya data absensi
+            const monthsWithData = Array.from(new Set(Object.keys(db.attendance).map(d => d.substring(0, 7)))).sort().reverse();
+
+            let totalSemua = 0;
+            let riwayatHtml = '';
+            if (monthsWithData.length === 0) {
+                riwayatHtml = `<div class="text-center p-6 text-gray-400 dark:text-slate-500 font-bold text-xs bg-gray-50 dark:bg-slate-800/50 rounded-2xl border border-dashed border-gray-200 dark:border-slate-700">Belum ada data tabungan</div>`;
+            } else {
+                monthsWithData.forEach(m => {
+                    const s = getMonthSummary(m);
+                    totalSemua += s.voucherValue;
+                    const label = new Date(m + '-02T00:00:00').toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+                    riwayatHtml += `
+                        <div class="flex justify-between items-center bg-gray-50 dark:bg-slate-700/40 p-3.5 rounded-2xl border border-gray-100 dark:border-slate-700">
+                            <div>
+                                <p class="font-bold text-sm text-gray-800 dark:text-white">${label}</p>
+                                <p class="text-[10px] font-bold text-gray-400 dark:text-slate-500 mt-0.5">${s.netVoucher} Voucher</p>
+                            </div>
+                            <span class="font-black text-bloom-lavenderText dark:text-purple-300">${formatRupiah(s.voucherValue)}</span>
+                        </div>`;
+                });
+            }
+            document.getElementById('tabungan-riwayat').innerHTML = riwayatHtml;
+            document.getElementById('tabungan-total-semua').textContent = formatRupiah(totalSemua);
+        }
+
+        async function exportData() {
+            const payload = { app: APP_ID, version: db.version, exportedAt: new Date().toISOString(), appTitle: getAppTitle(), data: db };
+            const json = JSON.stringify(payload, null, 2);
+            const fileName = `emilia-tengil-batu-backup-${formatDateString(new Date())}.json`;
+            try {
+                const file = new File([json], fileName, { type: 'application/json' });
+                if (isStandalone() && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({ files: [file], title: 'Backup ' + getAppTitle() });
+                    markBackupDone();
+                    showToast('Backup dibagikan');
+                    return;
+                }
+            } catch (err) {
+                if (err && err.name === 'AbortError') return;
+            }
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = fileName;
+            document.body.appendChild(a); a.click(); a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 4000);
+            markBackupDone();
+            showToast('Backup berhasil diunduh');
+        }
+
+        function handleRestoreFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if (parsed.app && String(parsed.app).includes("Tengil") && parsed.data) {
+                        showDialog('Restore Data', 'Data saat ini akan tertimpa sepenuhnya oleh file backup. Proses ini tidak bisa dibatalkan. Lanjutkan?', 'confirm', () => {
+                            db = normalizeDb(parsed.data);
+                            if (typeof parsed.appTitle === 'string' && parsed.appTitle.trim()) {
+                                lsSet(TITLE_KEY, parsed.appTitle.trim().slice(0, 30));
+                                applyAppTitle();
+                            }
+                            saveData();
+                            showToast("Restore data berhasil!");
+                        });
+                    } else showDialog('Gagal', "File backup tidak valid atau bukan dari aplikasi ini.");
+                } catch (err) { showDialog('Error', "Gagal membaca file JSON."); }
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        function confirmResetData() {
+            showDialog('HAPUS PERMANEN', 'Apakah Anda sangat yakin? Semua data absensi, keuangan, dan rekap akan dihapus permanen. Tindakan ini tidak dapat dikembalikan!', 'confirm', () => {
+                db = { version: 5, attendance: {}, transactions: [], manualPenalties: [], monthStatus: {} };
+                saveData();
+                showToast("Semua data telah dihapus");
+                switchTab('home');
+            });
+        }
+
+        /* ================= JUDUL APLIKASI ================= */
+        function getAppTitle() { return (lsGet(TITLE_KEY) || '').trim() || DEFAULT_TITLE; }
+
+        function applyAppTitle() {
+            const t = getAppTitle();
+            document.title = t;
+            const h1 = document.getElementById('app-title'); if (h1) h1.textContent = t;
+            const st = document.getElementById('setting-title-text'); if (st) st.textContent = t;
+            const m = document.querySelector('meta[name="apple-mobile-web-app-title"]'); if (m) m.setAttribute('content', t);
+        }
+
+        function openTitleModal() {
+            const input = document.getElementById('app-title-input');
+            input.value = getAppTitle();
+            openModal('modal-title');
+            setTimeout(() => { input.focus(); input.select(); }, 150);
+        }
+
+        function saveAppTitle(e) {
+            e.preventDefault();
+            const v = document.getElementById('app-title-input').value.trim().slice(0, 30);
+            if (!v || v === DEFAULT_TITLE) lsDel(TITLE_KEY); else lsSet(TITLE_KEY, v);
+            applyAppTitle();
+            closeModal('modal-title');
+            showToast('Judul diperbarui!');
+        }
+
+        function resetAppTitle() {
+            lsDel(TITLE_KEY);
+            applyAppTitle();
+            closeModal('modal-title');
+            showToast('Judul dikembalikan');
+        }
+
+        /* ================= PWA ================= */
+        function isStandalone() {
+            return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        }
+        function isIOS() {
+            return /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        }
+
+        function updateThemeColor() {
+            const m = document.querySelector('meta[name="theme-color"]');
+            if (m) m.setAttribute('content', document.documentElement.classList.contains('dark') ? '#1b1e29' : '#ffffff');
+        }
+
+        function setText(id, text, cls) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = text;
+            if (cls !== undefined) el.className = cls;
+        }
+
+        function daysSinceBackup() {
+            const t = parseInt(lsGet(BACKUP_KEY));
+            return t ? Math.floor((Date.now() - t) / 86400000) : null;
+        }
+
+        function renderPwaStatus() {
+            const ok = 'text-emerald-600 dark:text-emerald-400', warn = 'text-amber-600 dark:text-amber-400', neutral = 'text-gray-700 dark:text-slate-200';
+            const btn = document.getElementById('pwa-install-btn');
+            const standalone = isStandalone();
+            if (btn) btn.classList.toggle('hidden', standalone);
+            setText('pwa-status', standalone ? 'Terpasang sebagai aplikasi ✓' : 'Pasang ke layar utama agar terasa seperti aplikasi');
+
+            const swOk = !!(swReg && (swReg.active || swReg.installing || swReg.waiting));
+            setText('pwa-offline-state', swOk ? 'Siap ✓' : (location.protocol === 'file:' ? 'Perlu di-hosting (HTTPS)' : 'Belum aktif'), 'font-bold ' + (swOk ? ok : warn));
+            setText('pwa-storage-state', storagePersisted === true ? 'Permanen ✓' : (storagePersisted === false ? 'Bisa dihapus browser' : '-'), 'font-bold ' + (storagePersisted === true ? ok : warn));
+
+            const d = daysSinceBackup();
+            setText('pwa-backup-state', d === null ? 'Belum pernah' : (d === 0 ? 'Hari ini ✓' : d + ' hari lalu'), 'font-bold ' + (d !== null && d <= 14 ? ok : warn));
+            setText('pwa-version', 'v' + APP_VERSION, 'font-bold ' + neutral);
+            setText('setting-title-text', getAppTitle());
+        }
+
+        async function installApp() {
+            if (deferredInstallPrompt) {
+                deferredInstallPrompt.prompt();
+                try { await deferredInstallPrompt.userChoice; } catch (_) {}
+                deferredInstallPrompt = null;
+                renderPwaStatus();
+                return;
+            }
+            if (isIOS()) {
+                showDialog('Pasang di iPhone / iPad',
+                    '1. Buka halaman ini di Safari\n2. Ketuk tombol Bagikan (kotak dengan panah ke atas)\n3. Pilih "Tambah ke Layar Utama"\n\nPENTING: aplikasi di layar utama punya penyimpanan terpisah dari Safari. Lakukan Backup dulu, lalu Restore setelah aplikasi terpasang.');
+            } else {
+                showDialog('Pasang Aplikasi',
+                    'Buka menu browser (⋮) lalu pilih "Instal aplikasi" atau "Tambahkan ke layar utama".\n\nTombol ini otomatis bekerja langsung bila browser mendukung dan halaman dibuka lewat HTTPS.');
+            }
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredInstallPrompt = e; renderPwaStatus(); });
+        window.addEventListener('appinstalled', () => { deferredInstallPrompt = null; showToast('Aplikasi terpasang 🎉'); renderPwaStatus(); });
+
+        function updateOnlineState() {
+            const b = document.getElementById('offline-badge');
+            if (b) b.classList.toggle('hidden', navigator.onLine);
+        }
+        window.addEventListener('online', () => { updateOnlineState(); showToast('Kembali online'); });
+        window.addEventListener('offline', () => { updateOnlineState(); showToast('Mode offline — data tetap aman'); });
+
+        /* --- Service worker & pembaruan --- */
+        let pendingWorker = null, updateRequested = false;
+
+        function showUpdateBanner(worker) {
+            pendingWorker = worker;
+            const el = document.getElementById('update-banner');
+            if (el) { el.classList.remove('hidden'); el.classList.add('flex'); }
+        }
+        function dismissUpdate() {
+            const el = document.getElementById('update-banner');
+            if (el) { el.classList.add('hidden'); el.classList.remove('flex'); }
+        }
+        function applyUpdate() {
+            if (!pendingWorker) { location.reload(); return; }
+            updateRequested = true;
+            pendingWorker.postMessage({ type: 'SKIP_WAITING' });
+        }
+
+        async function checkForUpdate() {
+            if (!swReg) { showToast('Offline belum aktif — buka lewat HTTPS'); return; }
+            try {
+                await swReg.update();
+                if (swReg.waiting) showUpdateBanner(swReg.waiting);
+                else if (swReg.installing) showToast('Mengunduh pembaruan…');
+                else showToast('Sudah versi terbaru ✓');
+            } catch (_) { showToast('Gagal cek pembaruan'); }
+        }
+
+        function registerServiceWorker() {
+            if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) { renderPwaStatus(); return; }
+            navigator.serviceWorker.addEventListener('controllerchange', () => { if (updateRequested) location.reload(); });
+            navigator.serviceWorker.register('sw.js').then((reg) => {
+                swReg = reg;
+                if (reg.waiting && navigator.serviceWorker.controller) showUpdateBanner(reg.waiting);
+                reg.addEventListener('updatefound', () => {
+                    const nw = reg.installing;
+                    if (!nw) return;
+                    nw.addEventListener('statechange', () => {
+                        if (nw.state === 'installed' && navigator.serviceWorker.controller) showUpdateBanner(nw);
+                        renderPwaStatus();
+                    });
+                });
+                renderPwaStatus();
+            }).catch((err) => { console.warn('Service worker gagal didaftarkan', err); renderPwaStatus(); });
+        }
+
+        /* --- Penyimpanan permanen & backup --- */
+        async function initStorage() {
+            try {
+                if (navigator.storage && navigator.storage.persisted) {
+                    storagePersisted = await navigator.storage.persisted();
+                    if (!storagePersisted && navigator.storage.persist) storagePersisted = await navigator.storage.persist();
+                }
+            } catch (_) {}
+            renderPwaStatus();
+        }
+
+        function markBackupDone() {
+            lsSet(BACKUP_KEY, String(Date.now()));
+            lsDel(SNOOZE_KEY);
+            renderBackupReminder();
+            renderPwaStatus();
+        }
+        function snoozeBackup() {
+            lsSet(SNOOZE_KEY, String(Date.now() + 3 * 86400000));
+            renderBackupReminder();
+        }
+        function renderBackupReminder() {
+            const el = document.getElementById('backup-reminder');
+            if (!el) return;
+            const hasData = Object.keys(db.attendance).length > 0 || db.transactions.length > 0;
+            const d = daysSinceBackup();
+            const snoozed = parseInt(lsGet(SNOOZE_KEY)) > Date.now();
+            const need = hasData && !snoozed && (d === null || d >= 14);
+            el.classList.toggle('hidden', !need);
+            if (need) setText('backup-reminder-text', d === null
+                ? 'Data tersimpan hanya di perangkat ini dan belum pernah di-backup.'
+                : `Terakhir backup ${d} hari lalu. Simpan salinan agar data tidak hilang.`);
+        }
+
+        /* --- Hari berganti saat aplikasi tetap terbuka --- */
+        function refreshIfDayChanged() {
+            const t = getTodayString();
+            if (lastActiveDay && t !== lastActiveDay) {
+                lastActiveDay = t;
+                currentCalendarDate = new Date();
+                currentTabunganDate = new Date();
+                initApp();
+            }
+        }
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                refreshIfDayChanged();
+                updateOnlineState();
+                if (swReg) swReg.update().catch(() => {});
+            }
+        });
+
+        /* --- Shortcut dari ikon (long-press) --- */
+        function handleLaunchAction() {
+            const a = new URLSearchParams(location.search).get('action');
+            if (!a) return;
+            if (a === 'absen') openAttendanceModal(getTodayString());
+            else if (a === 'uang') openFinanceModal();
+            else if (a === 'rekap') switchTab('rekap');
+            try { history.replaceState(null, '', location.pathname); } catch (_) {}
+        }
+
+        function initPwa() {
+            lastActiveDay = getTodayString();
+            applyAppTitle();
+            updateThemeColor();
+            updateOnlineState();
+            renderBackupReminder();
+            renderPwaStatus();
+            registerServiceWorker();
+            initStorage();
+            handleLaunchAction();
+        }
+
+        window.onload = () => { initApp(); initPwa(); };
+    </script>
+</body>
+</html>
